@@ -1,0 +1,396 @@
+<app-card-template titleCard="Cotizaciones">
+  <h3 headerCard>Formulario para agregar nueva cotización</h3>
+  <div contentCard>
+   
+    <!-- información del cliente -->
+    <p class="lineal">Información de cliente</p>
+
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Nombre del Cliente</mat-label>
+          <input matInput [value]="dataCliente.Client_Name" disabled />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Numero de Identificación</mat-label>
+          <input matInput  autocomplete="off"
+          mask="separator.2"
+          thousandSeparator="," [value]="dataCliente.No_Documento_Cli" disabled />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput [value]="dataCliente.Email_Cli" disabled />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Teléfono</mat-label>
+          <input matInput [value]="dataCliente.Telefono_Cli" disabled />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Celular</mat-label>
+          <input matInput [value]="dataCliente.Celular_Cli" disabled />
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- información de la unidad -->
+    <p class="lineal">Información de la unidad</p>
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Tipo de unidad</mat-label>
+          <input matInput [value]="dataUnidad.Tipo_Inmueble" disabled />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Nomenclatura</mat-label>
+          <input matInput [value]="dataUnidad.Nomenclatura_Unidad" disabled />
+        </mat-form-field>
+      </div>
+      <ng-container *ngIf="!oportunidad.id; else elseTemplate">
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor unidad</mat-label>
+            <input matInput [value]="unidad | currency" disabled />
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor unidad</mat-label>
+            <input matInput [value]="dataUnidad.Valor_Total_Unidad | currency" disabled />
+          </mat-form-field>
+        </div>
+      </ng-template>
+      
+    </div>
+
+    <!-- formato de cotización -->
+    <p class="lineal">cotización</p>
+ 
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Porcentaje de descuento</mat-label>
+            <input
+              matInput
+              name="PDescuento"
+              PDescuento="ngModel"
+              [(ngModel)]="cotizacionAdd.PDescuento"
+             
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="%  "
+             
+              pattern="[0-9]+ "
+              (blur)="calcularNuevoValor($event)"
+             
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor del descuento</mat-label>
+            <input
+              matInput
+              pattern="[0-9]+"
+              name="vDescuento"
+              vDescuento="ngModel"
+              min="0"
+              [value]="cotizacionAdd.vDescuento | currency"
+
+             
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor de la Unidad Con descuento</mat-label>
+            <input
+              matInput
+              min="0"
+              name="vUnidadFinal"
+              vUnidadFinal="ngModel"
+              [value]="cotizacionAdd.vUnidadFinal | currency"
+              
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor Congelacion</mat-label>
+            <input
+              matInput
+              min="0"
+              name="vCongelacion"
+              vCongelacion="ngModel"
+              [value]="cotizacionAdd.vCongelacion | currency"
+
+            
+             
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field class="example-full-width" style="width: 100%">
+            <mat-label>Fecha de pago cuota congelación</mat-label>
+            <input
+              matInput
+              [matDatepickerFilter]="myFilter"
+              [matDatepicker]="picker"
+              [value]="this.fechaCongelacion"
+
+              (dateInput)="addEvent('input', $event)"
+              [min]="dateMin"
+              required
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <hr />
+
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor cuota de separacion</mat-label>
+            <input
+              matInput
+              name="vCuotaSeparacion"
+              vCuotaSeparacion="ngModel"
+              [(ngModel)]="cotizacionAdd.vCuotaSeparacion"
+              min="0"
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="$  "
+             
+              pattern="[0-9]+"
+              required
+            />
+          </mat-form-field>
+        </div>
+
+
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Estado Cuota de Separación</mat-label>
+            <mat-select name="estadoSeparacion" estadoSeparacion="ngModel" [(ngModel)]="estadoseparacion" >
+              <mat-option *ngFor="let estado of estadosSeparacion" [value]="estado.Catalogo_Estado_Separacion">
+                {{ estado.Catalogo_Estado_Separacion }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field class="example-full-width" style="width: 100%">
+            <mat-label>Fecha de pago cuota Inicial</mat-label>
+            <input
+              matInput
+              [matDatepickerFilter]="Filter"
+              [matDatepicker]="fSeparacion"
+              (dateInput)="cuotaIncial('input', $event)"
+              [value]="this.fechaCinicial"
+              [min]="dateMin"
+              required
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="fSeparacion"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #fSeparacion></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Cuota incial</mat-label>
+            <input
+              matInput
+              min="0"
+              name="vCuotaIncial"
+              vCuotaIncial="ngModel"
+              [(ngModel)]="cotizacionAdd.vCuotaIncial"
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="$  "
+
+              pattern="[0-9]+"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor cuota inicial 20%</mat-label>
+            <input
+              matInput 
+              min="0"
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="$  "
+              name="ValorCuotaInicial"
+              ValorCuotaInicial="ngModel"
+              [(ngModel)]="cotizacionAdd.ValorCuotaInicial"
+            pattern="[0-9]+"
+            required
+              
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Tipo cuotas 20%</mat-label>
+            <mat-select [value]="this.selectEstado" (valueChange)="estadoSeleccionado($event)">
+              <mat-option *ngFor="let tipo of tipoPago" [value]="tipo.name">
+                {{ tipo.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Numero de cuotas</mat-label>
+            <input
+              matInput
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="#  "
+              name="numeroCuotas"
+              numeroCuotas="ngModel"
+              [(ngModel)]="cotizacionAdd.numeroCuotas"
+              
+              (blur)="CalcularNumeroCuotas()"
+              
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Valor de la cuota 20%</mat-label>
+            <input
+              matInput
+              min="0"
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="$  "
+              name="valorCuota"
+              valorCuota="ngModel"
+              [(ngModel)]="cotizacionAdd.valorCuota"
+            pattern="[0-9]+"
+            required
+
+
+             
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Cuota Final</mat-label>
+            <input
+              matInput
+              min="0"
+              mask="separator.2"
+              thousandSeparator=","
+              prefix="$  "
+              name="cuotaFinal"
+              cuotaFinal="ngModel"
+              [(ngModel)]="cotizacionAdd.cuotaFinal "
+              pattern="[0-9]+"
+              required
+
+              
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Estado Cotización</mat-label>
+              
+            <mat-select [value]="this.estadoSelect"  (valueChange)="tipoCotizacion($event)" >
+              <mat-option
+                *ngFor="let tipo of estadoCotizacion"
+                [value]="tipo.name"
+              >
+                {{ tipo.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+   
+
+    <br>
+
+
+
+
+
+
+    <div *ngIf="tablaPagos" class="container">
+      <h2>Financiamiento 20% - Plan de Pagos</h2>
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">#</div>
+          <div class="col col-2">item</div>
+
+          <div class="col col-3">Fecha</div>
+          <div class="col col-4">Valor</div>
+          <div class="col col-5">Descripción</div>
+
+          
+          <!-- <div class="col col-4"></div> -->
+        </li>
+        <span *ngFor="let item of CuadroPagos; let i=index">
+        <li class="table-row">
+          <div class="col col-1" data-label="num">{{i+1 }}</div>
+          <div class="col col-2" data-label="num">{{item.Sub_Item_Pago}}</div>
+
+          <div class="col col-3" data-label="date">{{ item.fecha | date }}</div>
+          <div class="col col-4" data-label="valor">{{ item.valor | currency }}</div>
+
+          <div class="col col-5">
+            
+            Credito Pago 20% sin intereses
+       
+
+           
+          </div>
+
+          <!-- <div class="col col-4" data-label="opciones"><button
+               
+            class="button-accent"
+            matTooltip="Editar"
+            (click)="editarCuadroPagos(item)"
+          >
+            <i class="fas fa-edit"></i>
+          </button></div> -->
+        
+        </li>
+      </span>
+      </ul>
+    </div>
+
+    <hr>
+    <button class="button-primary" (click)="guardarData() ">Guardar</button>
+  </div>
+</app-card-template>

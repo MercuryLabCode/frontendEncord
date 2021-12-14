@@ -1,0 +1,7 @@
+<breadcrumb #parent>
+    <span class="breadcrumb " *ngFor="let route of parent.breadcrumbs">
+        <a class="title" mat-button *ngIf="!route.terminal" href="" [routerLink]="[route.url]">{{ route.displayName }}</a>
+        <a mat-button *ngIf="route.terminal">{{ route.displayName }}</a>
+    </span>
+</breadcrumb>
+

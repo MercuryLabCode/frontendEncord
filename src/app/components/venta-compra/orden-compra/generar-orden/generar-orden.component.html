@@ -1,0 +1,424 @@
+<app-card-template titleCard="Ordenes de compra">
+  <h3 headerCard>Generar una solicitud de materiales</h3>
+  <div contentCard>
+    <ng-container *ngIf="tipoOportunidad === 'vacio'">
+      <div class="container">
+        <a class="card1" (click)="selectTipo(1)" routerLinkActive="active-link">
+          <h3>Compra Inteligente</h3>
+          <p class="small">
+            <img style="width: 70%" src="assets/inteligente.svg" />
+          </p>
+          <div class="go-corner" href="#">
+            <div class="go-arrow">→</div>
+          </div>
+        </a>
+
+        <a class="card1" (click)="selectTipo(2)" routerLinkActive="active-link">
+          <h3>Compra Normal</h3>
+          <p class="small">
+            <img style="width: 72%" src="assets/compra-normal.svg" />
+          </p>
+          <div class="go-corner" href="#">
+            <div class="go-arrow">→</div>
+          </div>
+        </a>
+      </div>
+    </ng-container>
+    <!-- Compra Inteligente -->
+    <ng-container *ngIf="tipoOportunidad === 'inteligente'">
+      <br />
+
+      <button class="button-regresar" (click)="selectTipo(3)">
+        <svg
+          height="16"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+        >
+          <path
+            d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"
+          ></path>
+        </svg>
+        <span>Regresar</span>
+      </button>
+      <!-- <a
+        mat-raised-button
+        color="accent"
+        (click)="selectTipo(3)"
+        matTooltip="Regresar"
+      >
+        <i class="fas fa-arrow-left"></i>
+      </a> -->
+      <hr />
+      <h2>Compra Inteligente</h2>
+
+      <mat-form-field style="width: 100%">
+        <mat-label>Seleccione Material</mat-label>
+        <input
+          type="text"
+          matInput
+          [formControl]="stateCtrl"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="materialSeleccionado($event)"
+        >
+          <mat-option
+            *ngFor="let option of filteredStates | async"
+            [value]="option"
+          >
+            {{ option.Material_Name }} | {{ option.Marca }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br />
+      <table class="table table-striped">
+        <thead>
+          <th>Material</th>
+          <th>Marca</th>
+
+          <th>Cantidad en Inventario</th>
+          <th>Unidad</th>
+          <th>Proveedor</th>
+          <th>Valor Compra</th>
+          <th>Cantidad solicitud</th>
+          <th>Valor solicitud</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let materia of materialMejor">
+            <td>{{ materia.nombre }}</td>
+            <td>{{ materia.Marca }}</td>
+
+            <td>{{ materia.cantidad }}</td>
+            <td>{{ materia.medida.Catalogo_Estado_Uni }} - {{ materia.medida.Estado_Descripcion_Uni }}</td>
+
+            <td>{{ materia.no__documento__prov.Proveedor_Name }}</td>
+            <td>{{ materia.Precio_Compra | currency }}</td>
+            <td>
+              <mat-form-field
+                matTooltip="Para eliminar la solicitud ingresa cantidad = 0 "
+              >
+                <mat-label
+                  >Cantidad <i class="fas fa-info-circle"></i
+                ></mat-label>
+
+                <input
+                  matInput
+                  placeholder="0"
+                  autocomplete="off"
+                  mask="separator.2"
+                  thousandSeparator="."
+                  (change)="calcularValor($event, materia, 'inteligente')"
+                  type="text"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <span *ngFor="let listVariable of listadoCalculado">
+                <span *ngIf="listVariable.idMaterial == materia.Codigo_ID">
+                  <mat-label>{{ listVariable.valor | currency }}</mat-label>
+                </span>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr />
+      <div class="col-12 text-center">
+        <button
+          class="button-primary"
+          (click)="onSubmit('inteligente')"
+          matTooltip="Solicitar"
+        >
+          Realizar Solicitud
+        </button>
+      </div>
+    </ng-container>
+    <!-- compra Normal -->
+    <ng-container *ngIf="tipoOportunidad === 'normal'; else elseTemplate">
+      <br />
+      <button class="button-regresar" (click)="selectTipo(3)">
+        <svg
+          height="16"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+          version="1.1"
+          viewBox="0 0 1024 1024"
+        >
+          <path
+            d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"
+          ></path>
+        </svg>
+        <span>Regresar</span>
+      </button>
+
+      <hr />
+      <h2>Compra Normal</h2>
+      <div class="content-form col-md-10 offset-md-1">
+        <mat-horizontal-stepper
+          labelPosition="bottom"
+          class="step"
+          #stepper
+          [linear]="isEditable"
+        >
+          <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+            <ng-template matStepLabel>Listado de Proveedores</ng-template>
+            <br />
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label
+                ><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar
+                Proveedor</mat-label
+              >
+              <input
+                matInput
+                type="text"
+                name="search"
+                [(ngModel)]="searchText"
+                autocomplete="off"
+                placeholder="Digité Proveeedor"
+              />
+
+              <!-- <input (keyup)="filtrar($event)" matInput placeholder="Material" > -->
+            </mat-form-field>
+
+            <div>
+              <mat-accordion>
+                <span
+                  *ngFor="
+                    let material of list_Materiales
+                      | search: searchText
+                      | paginate: page_size:page_number
+                  "
+                >
+                  <hr />
+                  <mat-expansion-panel
+                    (opened)="
+                      panelOpenState =
+                        true && buscarProveedores(material.No_Documento_Prov)
+                    "
+                    (closed)="panelOpenState = false"
+                  >
+                    <mat-expansion-panel-header class="mat-acordion">
+                      <mat-panel-title>
+                        <strong matBadgeOverlap="false">
+                          {{ material.no__documento__prov.Proveedor_Name }}
+                        </strong>
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Listado de proveedores
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <hr />
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label
+                        ><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar
+                        Proveedor</mat-label
+                      >
+                      <input
+                        matInput
+                        type="text"
+                        name="search"
+                        [(ngModel)]="ProveedorText"
+                        autocomplete="off"
+                        placeholder="Digité Material"
+                      />
+
+                      <!-- <input (keyup)="filtrar($event)" matInput placeholder="Material" > -->
+                    </mat-form-field>
+
+                    <table class="table">
+                      <thead>
+                        <th>Material</th>
+                        <th>Marca</th>
+                        <th>Cantidad</th>
+                        <th>Medida</th>
+                        <th>Precio Venta</th>
+                        <th>Cantidad</th>
+                        <th>
+                          Valor total
+                        </th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="
+                        let proveedorMaterial of list_Proveedores
+                          | search: ProveedorText
+                        
+                      ">
+                          <td>  {{ proveedorMaterial.Material_Name }}</td>
+                          <td>   {{ proveedorMaterial.Marca }}</td>
+                          <td>   {{ proveedorMaterial.Cantidad_Material | number }}</td>
+                          <td> {{ proveedorMaterial.Medida }}</td>
+                          <td> {{ proveedorMaterial.Precio_Compra | currency }}</td>
+                          <td>  <mat-form-field
+                            matTooltip="Para eliminar la solicitud ingresa cantidad = 0 "
+                          >
+                            <mat-label
+                              >Cantidad <i class="fas fa-info-circle"></i
+                            ></mat-label>
+
+                            <input
+                              matInput
+                              placeholder="0"
+                              autocomplete="off"
+                              mask="separator.2"
+                              thousandSeparator="."
+                              (change)="
+                                calcularValor(
+                                  $event,
+                                  proveedorMaterial,
+                                  'normal'
+                                )
+                              "
+                              type="text"
+                            />
+                          </mat-form-field></td>
+                          <td>
+                            <span *ngFor="let listVariable of listadoCalculado">
+                              <span *ngIf="listVariable.idMaterial == proveedorMaterial.Codigo_ID">
+                                <mat-label>{{ listVariable.valor | currency }}</mat-label>
+                              </span>
+                            </span>
+                          </td>
+
+
+
+
+
+                        </tr>
+                      </tbody>
+
+                    </table>
+
+                   
+                  </mat-expansion-panel>
+                </span>
+                <hr />
+              </mat-accordion>
+              <!-- <mat-paginator [length]="resultsLength" [pageSize]="30" aria-label="Select page of GitHub search results"></mat-paginator> -->
+              <mat-paginator
+                [length]="list_Materiales.length"
+                [pageSize]="page_size"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="handlePage($event)"
+                showFirstLastButtons
+              ></mat-paginator>
+            </div>
+
+            <hr />
+
+            <button class="button-primary" matStepperNext>Listado</button>
+          </mat-step>
+
+          <!-- Carrito de compras segundo step -->
+          <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+            <ng-template matStepLabel>Listado de Solicitudes</ng-template>
+
+            <hr />
+            <div class="container">
+
+                <table class="table ">
+                  <thead>
+                    <th>
+                      #
+                    </th>
+                    <th>
+                      Material
+                    </th>
+                    <th>
+                      Marca
+                    </th>
+                    <th>
+                      Proveedor
+                    </th>
+                    <th>
+                      Cantidad Solicitada
+                    </th>
+                    <th>
+                      Precio Venta
+                    </th>
+                    <th>
+                      Valor Total
+                    </th>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                    *ngIf="listadoCalculado.length == 0; else elseTemplate"
+                  >
+                    <tr>
+                      <td colspan="7">
+                        <h3 style="align-items: center">
+                          <strong>{{ title }}</strong>
+                        </h3>
+                      </td>
+                    </tr>
+                  </ng-container>
+  
+                  <ng-template #elseTemplate>
+                    <tr *ngFor="let item of listadoCalculado; let i = index">
+                      <td>
+                        {{ i + 1 }}
+                      </td>
+                      <td>
+                        {{ item.Material_Name }}
+                      </td>
+                      <td>
+                        {{ item.Marca }}
+                      </td>
+                      <td>
+                        {{ item.Proveedor_Name }}
+                      </td>
+                      <td>
+                        {{ item.Cantidad_Material | number }}
+                      </td>
+                      <td>
+                        {{ item.Precio_Unitario | currency }}
+                      </td>
+                      <td>
+                        {{ item.valor | currency }}
+                      </td>
+                    </tr>
+                  </ng-template>
+                  </tbody>
+                </table>
+
+              
+            </div>
+            <hr />
+            <div>
+              <button
+                class="button-accent"
+                (click)="stepper.reset()"
+                matStepperPrevious
+              >
+                Regresar
+              </button>
+              <button
+                class="button-primary"
+                (click)="onSubmit('normal')"
+                matStepperNext
+              >
+                Solicitar
+              </button>
+            </div>
+          </mat-step>
+          <!-- <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You are now done.</p>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+          </div>
+        </mat-step> -->
+        </mat-horizontal-stepper>
+      </div>
+    </ng-container>
+    <ng-template #elseTemplate> </ng-template>
+  </div>
+</app-card-template>

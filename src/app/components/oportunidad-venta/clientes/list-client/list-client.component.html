@@ -1,0 +1,109 @@
+<app-card-template titleCard="Clientes">
+  <h3 headerCardK>Listado de clientes</h3>
+  <div contentCard>
+    <!-- listado de clientes -->
+
+
+    <button
+    class="cta"
+    [routerLink]="['/adicionar_cliente']"
+        routerLinkActive="active-link"
+  >
+    <span>Nuevo Cliente</span>
+    <svg width="15px" height="10px" viewBox="0 0 13 10">
+      <path d="M1,5 L11,5"></path>
+      <polyline points="8 1 12 5 8 9"></polyline>
+    </svg>
+  </button>
+   
+
+    <hr />
+    <h2>Listado de clientes</h2>
+    <div style="overflow-x: scroll">
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="row-border hover"
+      >
+        <thead>
+          <tr>
+            <th>Cod</th>
+            <th>Nombre</th>
+            <th>Tipo de identificación</th>
+            <th>Número de identificación</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Nivel de estudio</th>
+            <th>Profesión</th>
+            <th>Celular</th>
+            <th>Teléfono</th>
+            <th>Correo electrónico</th>
+            <th>Observaciones</th>
+
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of list_client">
+            <td>{{ item.Cliente_ID }}</td>
+            <td>
+              {{ item.Client_Name }}
+            </td>
+
+            <td>
+              {{ item.tipo__documento__cli.Nombre_Iden }}
+            </td>
+            <td>
+              {{ item.No_Documento_Cli | number }}
+            </td>
+            <td>
+              {{ item.Fecha_Nacimiento_Cli | date }}
+            </td>
+            <td>
+              {{ item.Nivel_Estudios}}
+            </td>
+            <td>
+              {{ item.Profesion_Cli }}
+            </td>
+            <td>
+              {{ item.Celular_Cli | mask :'(000) 000 0000'}}
+            </td>
+            <td>
+              {{ item.Telefono_Cli | mask :'(000) 000 0000'}}
+            </td>
+            <td>
+              {{ item.Email_Cli }}
+            </td>
+            <td>
+              {{ item.Descr_Cli }}
+            </td>
+
+
+            <td>
+              <div style="position: relative">
+              
+                <button
+                class="button-primary"
+                matTooltip="Editar"
+                [routerLink]="['/editar-cliente/', item.Cliente_ID]"
+               
+              >
+                <i class="fas fa-edit"></i>
+              </button>&nbsp;
+              <button
+              class="button-accent"
+              matTooltip="Eliminar oportunidad"
+                (click)="deleteClient(item.Cliente_ID)"
+                
+              >
+              <i class="far fa-trash-alt"></i>
+              </button>
+              </div>
+              
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</app-card-template>

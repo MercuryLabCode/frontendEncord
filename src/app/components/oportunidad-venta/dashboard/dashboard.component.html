@@ -1,0 +1,104 @@
+<app-card-template titleCard="Oportunidades">
+  <h3 headerCard></h3>
+  <div contentCard>
+    <!-- listado de clientes -->
+    <button class="cta" [routerLink]="['/nueva_oportunidad']"
+    routerLinkActive="active-link">
+      <span>Generar Oportunidad</span>
+      <svg width="15px" height="10px" viewBox="0 0 13 10">
+        <path d="M1,5 L11,5"></path>
+        <polyline points="8 1 12 5 8 9"></polyline>
+      </svg>
+    </button>
+
+
+    <hr />
+
+    <h2>Listado de Oportunidades</h2>
+    <div style="overflow-x: scroll">
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="row-border hover compact"
+      >
+        <thead>
+          <tr>
+            <th>Cod</th>
+            <th>Cliente</th>
+            <th>Número de contacto</th>
+            <th>Email</th>
+
+            <th>Valor de la compra</th>
+
+            <th>Fecha Compra</th>
+            <th>Estado</th>
+
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of list_venta">
+            <td>{{ item.Op_Venta_ID }}</td>
+            <td>
+              {{ item.cliente__i_d.Client_Name }}
+            </td>
+            
+            <td>
+              {{ item.cliente__i_d.Celular_Cli }}
+            </td>
+            <td>
+              {{ item.cliente__i_d.Email_Cli }}
+            </td>
+            <td>{{ item.Precio_Op_Compra  | currency}}</td>
+            <td>{{ item.Expectativa_Fecha_Compra  | date: 'mediumDate' }}</td>
+            <td>{{ item.Estado_Op }}</td>
+
+
+            <td>
+              <div style="position: relative">
+<!-- 
+                <button
+                
+                  class="button-primary"
+                  matTooltip="Editar"
+                  [routerLink]="['/editar_oportunidad/', item.Op_Venta_ID]"
+                  routerLinkActive="active-link"
+                >
+                  <i class="fas fa-edit"></i>
+                </button> &nbsp; -->
+
+                <button
+                 
+                  class="button-warn"
+                  matTooltip="Generar cotización"
+                  [routerLink]="['/add-cotizacion/', item]"
+                  routerLinkActive="active-link"
+                >
+                <i class="far fa-file-alt"></i>
+                </button> &nbsp;
+
+                <!-- <button
+                  mat-mini-fab
+                  color="accent"
+                  matTooltip="Actualizar estado"
+                  (click)="edit(item.id)"
+                >
+                  <i class="material-icons">redo</i>
+                </button> -->
+                <button
+                  
+                  class="button-accent"
+                  matTooltip="Eliminar"
+                  (click)="deleteData(item.Op_Venta_ID)"
+                >
+                <i class="far fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</app-card-template>

@@ -1,0 +1,156 @@
+<h1 mat-dialog-title>Nuevo Material</h1>
+<div mat-dialog-content>
+
+  <form
+  action=""
+  method="post"
+  #registerForm="ngForm"
+  (ngSubmit)="onSubmit(registerForm)"
+>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Nombre:</mat-label>
+          <input
+          autocomplete="off"
+            name="nombre"
+            matInput
+            type="text"
+            #nombre="ngModel"
+            [(ngModel)]="producto.nombre"
+            required
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Marca:</mat-label>
+          <input
+          autocomplete="off"
+
+            matInput
+            type="text"
+            formControlName="marca"
+            required
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Cantidad:</mat-label>
+          <input
+          autocomplete="off"
+            name="cantidad"
+            matInput
+            #cantidad="ngModel"
+            [(ngModel)]="producto.cantidad"
+            type="text"
+            required
+          />
+        </mat-form-field>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Selecione Categoria:</mat-label>
+          <mat-select
+            name="categoria"
+            #categoria="ngModel"
+            [(ngModel)]="producto.categoria_id"
+            required
+          >
+            <mat-option
+              *ngFor="let item of list_categoria"
+              [value]="item.id"
+            >
+              {{ item.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Seleccioné Medida:</mat-label>
+          <mat-select
+            name="medida"
+            #medida="ngModel"
+            [(ngModel)]="producto.medida_id"
+            required
+          >
+            <mat-option *ngFor="let item of list_medida" [value]="item.id">
+              {{ item.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Precio de compra:</mat-label>
+          <input
+          autocomplete="off"
+            name="precio_compra"
+            matInput
+            #precio_compra="ngModel"
+            [(ngModel)]="producto.precio_compra"
+            type="text"
+
+            required
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field  style="width: 100%">
+          <mat-label>Seleccione Proveedor:</mat-label>
+          <mat-select
+            name="proveedor"
+            #proveedor="ngModel"
+            [(ngModel)]="producto.proveedor_id"
+            required
+          >
+            <mat-option
+              *ngFor="let item of list_proveedores"
+              [value]="item.id"
+            >
+              {{ item.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <hr />
+
+    <hr />
+
+    <mat-form-field  style="width: 100%">
+      <mat-label>Descripción:</mat-label>
+      <textarea
+        matInput
+        name="descripcion"
+        #descripcion="ngModel"
+        [(ngModel)]="producto.descripcion"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <input
+    class="btn shadow-lg"
+    type="submit"
+    value="Registrar"
+    style="background-color: #3f51b5; color: white"
+    [disabled]="registerForm.invalid"
+  />
+</form>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button color="accent" mat-dialog-close>Cerrar</button>
+
+
+</div>

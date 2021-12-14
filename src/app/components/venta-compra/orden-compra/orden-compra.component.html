@@ -1,0 +1,89 @@
+<app-card-template titleCard="Ordenes de compra">
+  <h3 headerCard>
+
+
+    <button class="cta" [routerLink]="['/generar-orden']"
+    routerLinkActive="active-link">
+      <span>Generar orden de compra</span>
+      <svg width="15px" height="10px" viewBox="0 0 13 10">
+        <path d="M1,5 L11,5"></path>
+        <polyline points="8 1 12 5 8 9"></polyline>
+      </svg>
+    </button>
+    
+  </h3>
+  <div contentCard>
+    <div style="overflow-x: scroll">
+      <table
+      datatable
+      [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger"
+      class="row-border hover compact"
+    >
+      <thead>
+        <tr>
+          <th>No. Orden</th>
+          <th>Material</th>
+          <th>Marca</th>
+          <th>Medida</th>
+          <th>Nombre del Proveedor</th>
+          <th>Número de identificación</th>
+          <th>Precio Unitario</th>
+          <th>Cantidad solicitada</th>
+          <th>Estado</th>
+          <th>Comentario</th>
+          <th>Fecha de creacion</th>
+          <th>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of listMateriales">
+          <td>{{ item.No_Orden }}</td>
+          <td>{{ item.Material_Name }}</td>
+
+          <td>{{ item.Marca }}</td>
+          <td>{{ item.Medida }}</td>
+
+          <td>{{ item.Proveedor_Name }}</td>
+
+          <td>{{ item.No_Documento_Prov | number }}</td>
+
+          <td>{{ item.Precio_Unitario | currency }}</td>
+
+          <td>{{ item.Cantidad_Material | number }}</td>
+          <td>{{ item.Estado_Gerente }}</td>
+          <td>{{ item.Comentario }}</td>
+
+          <td>{{ item.created_at | date }}</td>
+          <td>
+
+            <div style="position: relative ">
+              <a
+                mat-mini-fab
+                color="primary"
+                matTooltip="Editar"
+                 (click)="openDialog(item,1)"
+              >
+                <i class="fas fa-edit"></i>
+              </a>
+
+              <button
+                mat-mini-fab
+                matTooltip="Replicar"
+                class="shadow"
+                color="accent"
+                (click)="openDialog(item,2)"
+              >
+              <i class="fas fa-retweet"></i>
+              </button>
+            </div>
+  
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+   
+  </div>
+</app-card-template>

@@ -1,0 +1,167 @@
+<app-card-template titleCard="Materias Primas">
+  <h3 headerCard>Formulario para editar</h3>
+  <div contentCard>
+    <form
+      action=""
+      method="post"
+      #registerForm="ngForm"
+      (ngSubmit)="onSubmit(registerForm)"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Material:</mat-label>
+              <input
+                autocomplete="off"
+                matInput
+                type="text"
+                name="nombre"
+                #nombre="ngModel"
+                [(ngModel)]="producto.Material_Name"
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Marca:</mat-label>
+              <input
+                autocomplete="off"
+                matInput
+                type="text"
+                name="nombre"
+                #nombre="ngModel"
+                [(ngModel)]="producto.Marca"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Cantidad:</mat-label>
+              <input
+                autocomplete="off"
+                name="cantidad"
+                matInput
+                type="text"
+                prefix="#.  "
+                mask="separator.2"
+                thousandSeparator=","
+                #cantidad="ngModel"
+                [(ngModel)]="producto.Cantidad_Material"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Medida:</mat-label>
+              <mat-select
+                name="medida"
+               
+            
+                (valueChange)="CategoriaSeleccionado('medida',$event)"
+                [(ngModel)]="producto.Medida"
+              >
+                <mat-option
+                  *ngFor="let item of medidas"
+                  [value]="item.Catalogo_Estado_Uni"
+                >
+                  {{ item.Catalogo_Estado_Uni }} |
+                  {{ item.Estado_Descripcion_Uni }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Categoria:</mat-label>
+              <mat-select
+                name="categoria"
+                #categoria="ngModel"
+                (valueChange)="CategoriaSeleccionado('categoria',$event)"
+                
+                [(ngModel)]="producto.Categoria"
+              >
+                <mat-option
+                  *ngFor="let item of categorias"
+                  [value]="item.Catalogo_Estado_categoria"
+                >
+                  {{ item.Catalogo_Estado_categoria }} |
+                  {{ item.Estado_Descripcion_categoria }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Precio de compra:</mat-label>
+              <input
+                autocomplete="off"
+                name="compra"
+                matInput
+                prefix="$  "
+                mask="separator.2"
+                thousandSeparator=","
+                min="0"
+                pattern="[0-9]+ "
+                #compra="ngModel"
+                [(ngModel)]="producto.Precio_Compra"
+              />
+            </mat-form-field>
+          </div>
+         
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Proveedor:</mat-label>
+              <mat-select
+                name="proveedor"
+                #Proveedor="ngModel"
+               
+                (valueChange)="CategoriaSeleccionado('proveedor',$event)"
+                [(ngModel)]="proveedorSelect.No_Documento_Prov"
+              >
+                <mat-option
+                  *ngFor="let item of proveedores"
+                  [value]="item.No_Documento_Prov"
+                >
+                  {{ item.Proveedor_Name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <hr />
+        <mat-form-field style="width: 100%">
+          <mat-label>Descripción:</mat-label>
+          <textarea
+            matInput
+            name="descripcion"
+            #descripcion="ngModel"
+            [(ngModel)]="producto.descripcion"
+          ></textarea>
+        </mat-form-field>
+      </div>
+
+
+     <button class="button-primary" (click)="eventRegresar()">
+       Regresar
+     </button> 
+      <input
+        class="button-primary"
+        matTooltip="Editar"
+        type="submit"
+        value="Registrar"
+      />
+    </form>
+  </div>
+</app-card-template>

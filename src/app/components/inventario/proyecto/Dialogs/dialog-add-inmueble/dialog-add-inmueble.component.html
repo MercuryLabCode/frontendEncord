@@ -1,0 +1,301 @@
+
+<h1>Nuevo Inmueble</h1>
+<hr>
+<div class="row">
+
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Ubicación torre</mat-label>
+      <mat-select name="Torre" #Torre="ngModel" [(ngModel)]="newProject.torre_ID"  required>
+        <mat-option value="value" disabled
+          >Seleccione</mat-option
+        >
+        <mat-option
+          *ngFor="let tor of ListTorres"
+          [value]="tor.nombre"
+        >
+          {{ tor.nombre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Tipo de Inmueble</mat-label>
+      <mat-select name="Inmueble" #Inmueble="ngModel" [(ngModel)]="newProject.Tipo_Inmueble" required>
+        <mat-option value="value" disabled
+          >Seleccione</mat-option
+        >
+        <mat-option
+          *ngFor="let tInmueble of lst_tipoInmueble"
+          [value]="tInmueble.id"
+        >
+          {{ tInmueble.nombre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Unidad</mat-label>
+      <input
+        matInput
+        placeholder="Digite el nombre de la torre"
+        name="Unidad"
+        #Unidad="ngModel"
+        [(ngModel)]="newProject.Unidad" 
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Nomenclatura</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese la nomenclatura de la unidad"
+        name="Nomenclatura"
+        #Nomenclatura="ngModel"
+        [(ngModel)]="newProject.Nomenclatura_Unidad" 
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Area habitable</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese area habitable"
+        matTooltip="separe con punto"
+        name="Area_Habitable_M2"
+        #Area_Habitable_M2="ngModel"
+        [(ngModel)]="newProject.Area_Habitable_M2" 
+        (blur)="sumatoria()"
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Area Extension</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese area extension"
+        matTooltip="separe con punto"
+        name="Area_Extension_M2"
+        #Area_Extension_M2="ngModel"
+        [(ngModel)]="newProject.Area_Extension_M2" 
+        (blur)="sumatoria()"
+        
+     
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Tipo extension</mat-label>
+      <mat-select  name="Tipo_Extension"
+      #Tipo_Extension="ngModel"
+      [(ngModel)]="newProject.Tipo_Extension"  required>
+        <mat-option value="value" disabled
+          >Seleccione</mat-option
+        >
+        <mat-option
+          *ngFor="let ext of Extension"
+          [value]="ext.name"
+        >
+          {{ ext.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Area total</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese Cantidad de parqueaderos"
+        name="No_Parqueaderos"
+      #No_Parqueaderos="ngModel"
+      [(ngModel)]="newProject.Area_Total_M2" 
+      disabled
+        required
+      />
+    </mat-form-field>
+      <mat-label></mat-label>
+
+      <!-- <p>{{unidad.value.unidades[i].Area_Total_M2}}</p> -->
+     
+   
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Parqueaderos</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese Cantidad de parqueaderos"
+        name="No_Parqueaderos"
+      #No_Parqueaderos="ngModel"
+      [(ngModel)]="newProject.No_Parqueaderos" 
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Descripción parqueadero </mat-label>
+      <input
+        matInput
+        placeholder="Ingrese la descripción del parqueadero"
+        name="Parque_Descr"
+        #Parque_Descr="ngModel"
+        [(ngModel)]="newProject.Parque_Descr" 
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Bodega o deposito</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese cantidad de deposito"
+        name="Bodega_Deposito_M2"
+        #Bodega_Deposito_M2="ngModel"
+        [(ngModel)]="newProject.Bodega_Deposito_M2" 
+        required
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>estado de la unidad</mat-label>
+      <input
+        matInput
+        placeholder="Ingrese area habitable"
+        name="Estado_Unidad"
+        #Estado_Unidad="ngModel"
+        [(ngModel)]="newProject.Estado_Unidad" 
+        disabled
+        required
+      />
+    </mat-form-field>
+  </div>
+</div>
+
+<p class="lineal">Costos de la unidad</p>
+<div class="row">
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Valor del parqueadero</mat-label>
+      <input
+        matInput
+        autocomplete="off"
+        prefix="$  "
+        mask="separator.2"
+        thousandSeparator=","
+        placeholder="Ingrese Valor del parqueadero"
+        name="Valor_Parqueadero"
+        #Valor_Parqueadero="ngModel"
+        [(ngModel)]="newProject.Valor_Parqueadero" 
+        
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+    <mat-form-field
+      class="example-full-width"
+      style="width: 100%"
+    >
+      <mat-label>Valor de la Bodega</mat-label>
+      <input
+        matInput
+        autocomplete="off"
+        prefix="$  "
+        mask="separator.2"
+        thousandSeparator=","
+        placeholder="Ingrese Bodega"
+        name="Valor_Deposito"
+        #Valor_Deposito="ngModel"
+        [(ngModel)]="newProject.Valor_Deposito" 
+        required
+      />
+    </mat-form-field>
+  </div>
+  <div class="col-sm">
+   
+    <mat-form-field
+    class="example-full-width"
+    style="width: 100%"
+  >
+    <mat-label>Valor Total de la Unidad</mat-label>
+    <input
+      matInput
+      autocomplete="off"
+      prefix="$  "
+      mask="separator.2"
+      thousandSeparator=","
+      placeholder="Ingrese Valor"
+      name="Valor_Total_Unidad"
+        #Valor_Total_Unidad="ngModel"
+        [(ngModel)]="newProject.Valor_Total_Unidad" 
+     
+      required
+    />
+  </mat-form-field>
+  </div>
+</div>
+
+<hr>
+<button class="button-primary"
+matTooltip="Guardar" (click)="guardar()" >
+  Guardar
+</button>&nbsp;
+
+<button class="button-accent"
+matTooltip="Cerrar ventana" (click)="onNoClick()">Cerrar</button>

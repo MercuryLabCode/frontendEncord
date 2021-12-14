@@ -1,0 +1,112 @@
+<app-card-template titleCard="Usuario">
+  <h3 headerCard>Formulario para validar un usuario</h3>
+  <div contentCard>
+    <!-- listado de clientes -->
+
+    <hr />
+
+    <form
+      autocomplete="off"
+     
+      [formGroup]="formUsers"
+      
+    >
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Nombres</mat-label>
+            <input
+              matInput
+              name="nombre"
+              formControlName="User_Name"
+              placeholder="Digite este campo"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Apellidos</mat-label>
+            <input
+              matInput
+              name="apellido"
+              formControlName="User_Apellido"
+              placeholder="Digite este campo"
+              required
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+             
+             
+              
+              autocomplete="off"
+              formControlName="User_Email"
+              
+              placeholder="Digite este campo"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-sm" *ngIf="!id">
+          <mat-form-field style="width: 100%">
+            <mat-label>Digite Contraseña</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'"  autocomplete="off"
+            formControlName="User_Contrasena">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Seleccione Perfil</mat-label>
+            <mat-select
+              name="perfil"
+            
+              autocomplete="off"
+              formControlName="Perfil_User"
+              required
+            >
+              <mat-option
+                *ngFor="let perfil of list_perfil"
+                [value]="perfil.id"
+              >
+                {{ perfil.nombre }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field style="width: 100%">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput        autocomplete="off"
+        formControlName="User_Descripcion"> </textarea>
+      </mat-form-field>
+      <angular-file-uploader
+      [config]="afuConfig"
+     
+      (ApiResponse)="docUpload($event)">
+      >
+</angular-file-uploader>
+<hr>
+    <button
+      (click)="onSubmit()"
+
+      
+        mat-raised-button color="primary"
+       
+       
+        matTooltip="Guardar usuario"
+
+      >Guardar</button>
+    </form>
+  </div>
+</app-card-template>

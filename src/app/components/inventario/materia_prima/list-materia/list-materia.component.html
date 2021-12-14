@@ -1,0 +1,106 @@
+<app-card-template titleCard="Materias Primas">
+  <h3 headerCard>Listado de materiales</h3>
+  <div contentCard>
+    <button
+      class="cta"
+      [routerLink]="['/adicionar_materia']"
+      routerLinkActive="active-link"
+    >
+      <span>Nuevo Material</span>
+      <svg width="15px" height="10px" viewBox="0 0 13 10">
+        <path d="M1,5 L11,5"></path>
+        <polyline points="8 1 12 5 8 9"></polyline>
+      </svg>
+    </button>
+
+    <hr />
+
+    <div>
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="row-border fl-table compact"
+      >
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Cantidad</th>
+            <th>Medida</th>
+            <th>Precio de Compra</th>
+
+            <th>Categoria</th>
+
+            <th>Proveedor</th>
+            <th>Número de Documento</th>
+
+            <th>Celular</th>
+            <th>Telefono</th>
+            <th>Ciudad</th>
+
+            <th>opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of list_product">
+            <td>{{ product.Material_Name }}</td>
+            <td>{{ product.Marca }}</td>
+
+            <td>{{ product.Cantidad_Material | number }}</td>
+            <td>
+              {{ product.medida.Catalogo_Estado_Uni }} -
+              {{ product.medida.Estado_Descripcion_Uni }}
+            </td>
+            <td>{{ product.Precio_Compra | currency }}</td>
+
+            <td>
+              {{ product.categoria.Catalogo_Estado_categoria }} |
+              {{ product.categoria.Estado_Descripcion_categoria }}
+            </td>
+
+            <td>
+              {{ product.no__documento__prov.Proveedor_Name }}
+            </td>
+            <td>
+              {{ product.no__documento__prov.No_Documento_Prov | number }}
+            </td>
+            <td>
+              {{
+                product.no__documento__prov.Celular_Prov
+                  | mask: "(000) 000 0000"
+              }}
+            </td>
+            <td>
+              {{
+                product.no__documento__prov.Telefono_Prov
+                  | mask: "(000) 000 0000"
+              }}
+            </td>
+            <td>
+              {{ product.no__documento__prov.Ciudad }}
+            </td>
+
+            <td>
+              <button
+                class="button-primary"
+                matTooltip="Editar"
+                [routerLink]="['/editar_materia/', product.Codigo_ID]"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              &nbsp;
+              <button
+                class="button-accent"
+                matTooltip="Eliminar"
+                (click)="deleteProducto(product.Codigo_ID)"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</app-card-template>

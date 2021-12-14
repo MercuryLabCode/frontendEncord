@@ -1,0 +1,23 @@
+{
+  "id_unidad": "2111160001",
+  "Torre_Name": "sebastian1",
+  "Proyecto_ID": "Pro_000000001",
+  "Unidad": "202",
+  "Nomenclatura_Unidad": "10200000",
+  "Area_Habitable_M2": "630000",
+  "Area_Extension_M2": "20000000",
+  "Tipo_Extension": "Terraza",
+  "Area_Total_M2": 83,
+  "No_Parqueaderos": "1000",
+  "Parque_Descr": "No lineal000",
+  "Bodega_Deposito_M2": 1,
+  "Tipo_Inmueble": 6,
+  "Estado_Unidad": "Disponible",
+  "Valor_Parqueadero": 3200000000,
+  "Valor_Deposito": 1500000000,
+  "Valor_Total_Unidad": 182000000000,
+  "User_ID": 3,
+  "created_at": "2021-11-16 23:25:06",
+  "updated_at": "2021-11-16 23:25:06",
+  "Upload_Date": null
+}

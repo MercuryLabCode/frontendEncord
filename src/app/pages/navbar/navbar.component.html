@@ -1,0 +1,55 @@
+<nav
+  class="navbar navbar-expand-lg navbar-dark"
+  *ngIf="identity && identity.nombres"
+  style="background-color: #9e9e9e"
+>
+  <a class="navbar-brand" href="http://encordsas.com/index.html"
+    >
+    <img src="assets/encord2.png" alt="" style="width: 70%;margin-top: 1%;"/>
+</a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <ul
+      class="navbar-nav mx-4 my-0 my-lg-0"
+      *ngIf="identity && identity.nombres"
+    >
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle hov"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {{ identity.nombres + " " + identity.apellidos }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item hov" [routerLink]="['view-profile']"
+            >Mi perfil</a
+          >
+
+          <a class="dropdown-item hov" [routerLink]="['logout/1']"
+            >Cerrar Sesion</a
+          >
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

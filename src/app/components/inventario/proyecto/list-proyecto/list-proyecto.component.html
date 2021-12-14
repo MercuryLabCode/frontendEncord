@@ -1,0 +1,98 @@
+<app-card-template titleCard="Proyectos">
+  <h3 headerCard>Listado de proyectos</h3>
+  <div contentCard>
+
+    <button
+      class="cta"
+      [routerLink]="['/add-proyecto']"  routerLinkActive="active-link"
+    >
+      <span>Generar Proyecto</span>
+      <svg width="15px" height="10px" viewBox="0 0 13 10">
+        <path d="M1,5 L11,5"></path>
+        <polyline points="8 1 12 5 8 9"></polyline>
+      </svg>
+    </button>
+
+
+
+<hr>
+    <div style="overflow-x: scroll">
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="row-border hover compact order-column"
+      >
+        <thead>
+          <tr>
+            <th>Cod</th>
+            <th>Proyecto</th>
+            <th>Estado</th>
+            <th>Tipo Proyecto</th>
+            <th>Inicio proyecto </th>
+            <th>Terminación del proyecto</th>
+           
+            <th>Ciudad</th>
+            <th>Dirección</th>
+
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let po of list_proyecto">
+            <td>{{ po.Proyecto_ID}}</td>
+            <td>
+              {{ po.Project_Name }}
+            </td>
+            <td> 
+              {{ po.estado__proyecto.Estado_Descripcion_Proy}}
+            </td>
+            <td>
+              {{ po.Tipo_Proyecto }} 
+            </td>
+            <td>
+                {{ po.Fecha_Inicio_Projecto }}
+            </td>
+            <td>
+
+            {{po.Fecha_Fin_Projecto}}
+
+            </td>
+            <td>
+              {{ po.Ciudad }}
+            </td>
+            <td>
+              {{ po.Direccion }}
+            </td>
+
+
+            <td>
+
+              <button
+              class="button-primary"
+              matTooltip="Editar"
+
+                [routerLink]="['/View-proyecto/',po.Proyecto_ID]"
+                routerLinkActive="active-link"
+                aria-label="Editar"
+              >
+                <i class="fas fa-edit"></i>
+              </button> &nbsp;
+              <button
+              class="button-accent"
+              matTooltip="Eliminar"
+
+                (click)="EliminarProyecto(po)"
+                aria-label="Eliminar"
+              >
+              <i class="far fa-trash-alt"></i>
+
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</app-card-template>

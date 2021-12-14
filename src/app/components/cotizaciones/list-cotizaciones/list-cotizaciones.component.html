@@ -1,0 +1,93 @@
+<app-card-template titleCard="Cotizaciones">
+
+    <h3 headerCard>Listado de cotizaciones</h3>
+    <div contentCard>
+
+      <div style="overflow-x: scroll">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="row-border hover compact"
+        >
+          <thead>
+            <tr>
+              <th>Cod</th>
+              <th>Cliente</th>
+              <th>Valor unidad</th>
+
+              <th>Porcentaje de descuento</th>
+              <th>Valor con el descuento</th>
+              <th>Estado de la cotización</th>
+              <th>Tipo de cuota</th>
+              <th>Numero de cuotas</th>
+              <th>Valor de la cuota20%</th>
+              <th>Valor cuota 70%</th>
+              <th></th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of list_cotizaciones">
+              <td>{{item.Cotizacion_id}}</td>
+              <td>
+                {{ item.cliente__i_d.Client_Name }}
+              </td>
+
+              <td>
+                {{ item.Valor_Total_Unidad  |currency}}
+              </td>
+              <td>
+                {{ item.Porcentaje_Valor_Descuento }}%
+              </td>
+              <td>
+                {{ item.Valor_Unidad_Final |currency }}
+              </td>
+              <td>
+                {{ item.Estado_Cotizacion }}
+              </td>
+              <td>
+                {{ item.Tipo_Cuotas_20 }}
+              </td>
+              <td>
+                {{ item.Numero_Cuotas_20 | number }}
+              </td>
+              <td>
+                {{ item.Valor_Cuota_20   |currency}}
+              </td>
+              <td>
+                {{ item.Valor_Cuota_70   |currency}}
+              </td>
+              <td>
+                <button
+                
+                class="button-primary"
+                matTooltip="Editar"
+                [routerLink]="['/add-cotizacion/', item.Cotizacion_id]"
+                routerLinkActive="active-link"
+              >
+                <i class="fas fa-edit"></i>
+              </button> &nbsp;
+
+
+              
+              <button
+                
+                class="button-accent"
+                matTooltip="Eliminar"
+                (click)="deleteData(item.Cotizacion_id)"
+              >
+              <i class="far fa-trash-alt"></i>
+              </button>
+              </td>
+
+
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+</app-card-template>

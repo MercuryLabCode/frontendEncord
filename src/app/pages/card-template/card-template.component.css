@@ -1,0 +1,36 @@
+.content {
+    display: block;
+    padding: 10px 20px;
+    box-sizing: content-box;
+}
+
+.card-title {
+    position: absolute;
+    top: 180px;
+    left: 40px;
+    margin: 0;
+    padding: 10px 30px 0 30px;;
+    border-radius: 10px;
+    background: #96be5e;
+    box-shadow: #96be5e 0 10px 20px -10px;
+    color: #f3f3f3;
+    z-index: 20;
+}
+
+.card-title h3 {
+    text-transform: uppercase;
+}
+
+.card-template {
+  overflow-x: auto;
+    position: relative;
+    top: 15px;
+    padding: 40px 20px 20px 20px;
+    z-index: 10;
+    height: 95%;
+    background: rgba(255, 255, 255, 0.9);;
+    box-shadow: #ffffff 0 10px 20px -10px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-radius: 5px;
+    box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.4), 0 7px 10px -5px rgba(76, 115, 80, 0.4);
+}

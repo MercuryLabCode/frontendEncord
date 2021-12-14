@@ -1,0 +1,189 @@
+<app-card-template titleCard="Configuraciones">
+  <h3 headerCard></h3>
+  <div contentCard>
+    <!-- listado de clientes -->
+
+    <mat-card class="card">
+      <div style="text-align: center">
+        <h2 class="title"><strong>Listado de usuarios</strong></h2>
+      </div>
+      <div style="margin-left: 90%">
+        <a
+          class="shadow"
+          matTooltip="Agregar nuevo Usuario"
+          mat-flat-button
+          color="primary"
+          [routerLink]="['add-usuario']"
+          routerLinkActive="active-link"
+        >
+          <i class="fas fa-plus-circle"></i>
+        </a>
+      </div>
+
+      <hr />
+      <div style="overflow-x: scroll">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="row-border hover compact"
+        >
+          <thead>
+            <tr>
+              <th>Cod</th>
+              <th>img</th>
+              <th>Nombres</th>
+              <th>apellidos</th>
+              <th>email</th>
+              <th>Perfil</th>
+              <th>Descripción</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cliente of clientes">
+              <td>{{ cliente.User_ID }}</td>
+              <td>
+             
+                <img  src="{{url + 'usuario/avatar/'+cliente.User_Ruta_Imagen}}"
+                style="width: 60px;height: 60px; margin-left: 20%; margin-top: 10px"></td>
+              <td>{{ cliente.User_Name }}</td>
+              <td>{{ cliente.User_Apellido }}</td>
+              <td>{{ cliente.User_Email }}</td>
+              <td>
+                {{ cliente.perfil__user.nombre }}
+              </td>
+              <td>{{ cliente.User_Descripcion }}</td>
+              <td>
+                <div style="position: relative">
+                  <a
+                    mat-mini-fab
+                    color="primary"
+                    matTooltip="Editar Usuario"
+                    [routerLink]="['edit-usuario/', cliente.User_ID]"
+                    aria-label="Example icon button with a menu icon"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </a>
+
+                  <button
+                    mat-mini-fab
+                    matTooltip="Eliminar Usuario"
+                    class="shadow"
+                    color="accent"
+                    (click)="deleteUser(cliente.User_ID)"
+                  >
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-card>
+
+    <hr />
+
+    <div class="row">
+      <div class="col-sm">
+        <mat-card class="card">
+          <h3 class="title"><strong>Tipos de identificación</strong>
+            <button class="btn-agregar"  mat-mini-fab color="primary" (click)="nuevoDato('dtIdentificacion')"><i class="fas fa-plus-circle"></i></button></h3>
+
+          <table class="row-border hover compact table">
+            <thead>
+              <tr>
+                <th scope="col">Cod</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th></th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tipoI of tipoIdentificacion; let i = index">
+                <th>{{tipoI.ID_Ident}}</th>
+                <td>{{ tipoI.Nombre_Iden }}</td>
+                <td>{{ tipoI.Descripcion_Iden }}</td>
+
+                <td>
+                  <button
+                    mat-mini-fab
+                    color="primary"
+                    matTooltip="Editar tipo de indentificación"
+                    (click)="editarCampos('dtIdentificacion',tipoI)"
+
+                    aria-label="Example icon button with a menu icon"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+
+                  <button
+                    mat-mini-fab
+                    matTooltip="Eliminar Usuario"
+                    class="shadow"
+                    color="accent"
+                    (click)="eliminarCampos('dtIdentificacion',tipoI)"
+
+                    >
+
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
+      </div>
+      <div class="col-sm">
+        <mat-card class="card">
+          <h3 class="title"><strong>valores de medida</strong>  <button class="btn-agregar"  mat-mini-fab color="primary" (click)="nuevoDato('medida')"><i class="fas fa-plus-circle"></i></button></h3>
+          <table class="row-border hover compact table " >
+            <thead>
+              <tr>
+                <th scope="col">Cod</th>
+                <th scope="col">Nombre</th>
+
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let medida of medidas; let i = index">
+                <th>{{ i + 1 }}</th>
+
+                <td>{{ medida.nombre }}</td>
+
+                <td>
+                  <button
+                    mat-mini-fab
+                    color="primary"
+                    matTooltip="Editar medida"
+                    (click)="editarCampos('medida',medida)"
+
+                    aria-label="Example icon button with a menu icon"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+
+                  <button
+                    mat-mini-fab
+                    matTooltip="Eliminar Usuario"
+                    class="shadow"
+                    color="accent"
+                    (click)="eliminarCampos('medida',medida)"
+
+                    >
+
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</app-card-template>

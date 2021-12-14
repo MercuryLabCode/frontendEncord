@@ -1,0 +1,78 @@
+<app-spinner></app-spinner>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    *ngIf="validacion"
+    class="sidenav_menu"
+    #sidenav
+    mode="side"
+    opened="true"
+  >
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="backde" id="content-sidenav">
+    <div id="image">
+        
+    </div>
+    <router-outlet>
+     
+
+      <div class="mx-0" *ngIf="validacionNavbar">
+        <mat-toolbar class="toolbar">
+          <button
+            *ngIf="validacion"
+            mat-icon-button
+            matTooltip="Expandir Menú"
+            (click)="sidenav.toggle()"
+          >
+            <mat-icon>format_align_justify</mat-icon>
+          </button>
+        
+
+          &nbsp;<h1 style="color:#96be5e;">Gestión Empresarial</h1>
+
+
+          <span style="flex: 1 1 auto"></span>
+          <div>
+              
+            <button class="button-accent" matTooltip="Notificaciones">
+              <i class="fas fa-bell"></i>
+            </button>&nbsp;
+            <button
+            class="button-primary"
+              matTooltip="Mi cuenta"
+              [matMenuTriggerFor]="accountMenu"
+            >
+            <i class="fas fa-user"></i>
+            </button>
+            <mat-menu #accountMenu [overlapTrigger]="false" yPosition="below">
+              <button mat-menu-item routerLink="#">
+                <i class="fas fa-user"></i><span> Mi cuenta</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>help</mat-icon><span>Ayuda</span>
+              </button>
+              <mat-divider></mat-divider>
+              <button
+                mat-menu-item
+                [routerLink]="['logout/1']"
+                routerLinkActive="active-link"
+              >
+                <mat-icon>exit_to_app</mat-icon>
+                Cerrar sesión
+              </button>
+            </mat-menu>
+          </div>
+        </mat-toolbar>
+        <hr class="m-3" />
+      </div>
+     <ng-container *ngIf="validacion; else elseTemplate">
+     
+     </ng-container>
+     <ng-template #elseTemplate>
+     
+     </ng-template>
+     
+    </router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

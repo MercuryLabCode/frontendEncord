@@ -1,0 +1,19 @@
+
+
+ <app-breadcrumb></app-breadcrumb>
+ <hr>
+<div class="content ">
+  <div class="card-title">
+
+      <h3>
+
+          <strong>{{ titleCard || 'Título por defecto' }}</strong>
+      </h3>
+  </div>
+  <div class="card-template scale-in-ver-center" >
+
+      <ng-content select="[headerCard]"></ng-content>
+      <ng-content select="[contentCard]"></ng-content>
+      <ng-content select="[footerCard]"></ng-content>
+  </div>
+</div>

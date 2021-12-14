@@ -1,0 +1,184 @@
+<mat-nav-list
+  class="sombra gradiente"
+  dense
+  id="sidebarMenu"
+  *ngIf="identity && identity.nombres && validacion"
+>
+  <div style="margin-left: 25px">
+   <ng-container *ngIf="identity && identity.image; else elseTemplate">
+    <img
+    src="{{url + 'usuario/avatar/'+identity.image}}"
+    style="width: 100px; margin-left: 20%; margin-top: 10px"
+  />
+   </ng-container>
+   <ng-template #elseTemplate>
+    <img
+    src="assets/users.svg"
+    style="width: 95px; margin-left: 15%; margin-top: 10px"
+  />
+   </ng-template>
+   
+  </div>
+  <br />
+  <p style="color: white; text-align: center">
+    {{ identity.nombres }} {{ identity.apellidos }}
+  </p>
+  <hr style="background-color: white; height: 5px" />
+
+  <section>
+    <a
+      mat-button
+      [routerLink]="['/op_venta/dashboard-oportunidad']"
+      routerLinkActive="active-link"
+      class="bton"
+      ><i class="fas fa-balance-scale-right"></i> &nbsp;&nbsp;Oportunidades de
+      venta</a
+    >
+  </section>
+
+  <section>
+    <a
+      mat-button
+      [routerLink]="['/listado_clientes']"
+      routerLinkActive="active-link"
+      class="bton"
+    >
+      <i class="fas fa-users"></i>&nbsp;&nbsp;Clientes</a
+    >
+  </section>
+
+  <section>
+    <a
+      class="bton"
+      mat-button
+      [routerLink]="['/tareas']"
+      routerLinkActive="active-link"
+    >
+      <i class="fas fa-tasks"></i>&nbsp;&nbsp;Tareas
+    </a>
+  </section>
+  <section>
+    <a
+      class="bton"
+      mat-button
+      [routerLink]="['/listado-cotizaciones']"
+      routerLinkActive="active-link"
+    >
+      <i class="fas fa-paperclip"></i>&nbsp;&nbsp;Cotizaciones
+    </a>
+  </section>
+
+  <section>
+    <a
+    class="bton"
+    mat-button
+        [routerLink]="['/list-proyecto']"
+        routerLinkActive="active-link"
+      >
+      <i class="fas fa-project-diagram"></i>&nbsp;&nbsp;Proyectos
+      </a>
+  </section>
+
+
+ <section>
+  <mat-expansion-panel class="matPanel" dense *ngIf="id == '1' || id == '3'">
+    <mat-expansion-panel-header >
+      <i class="fas fa-dolly-flatbed"></i>&nbsp;&nbsp;Inventario
+    </mat-expansion-panel-header>
+    <mat-nav-list dense>
+      <hr style="background-color: white; height: 2px" />
+
+      <a
+      mat-button
+        [routerLink]="['/listado_materia_prima']"
+        routerLinkActive="active-link"
+        class="bton"
+      >
+        <i class="fas fa-tools"></i>&nbsp;&nbsp;Materiales
+      </a>
+
+      <a
+      mat-button
+        [routerLink]="['/listado_proveedores']"
+        routerLinkActive="active-link"
+        class="bton"
+      >
+        <i class="fas fa-people-carry"></i>&nbsp;&nbsp;Proveedores
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+ </section>
+<br>
+ <section>
+  <mat-expansion-panel class="matPanel" dense *ngIf="id == '1' || id == '3'">
+    <mat-expansion-panel-header >
+      <i class="fas fa-dolly-flatbed"></i>&nbsp;&nbsp;Ordenes de compra y venta
+    </mat-expansion-panel-header>
+    <mat-nav-list dense>
+      <hr style="background-color: white; height: 2px" />
+      <a
+      mat-button
+        [routerLink]="['/Orden-compra']"
+        routerLinkActive="active-link"
+        class="bton"
+      >
+      <i class="fas fa-truck-loading"></i>&nbsp;&nbsp;Ordenes de compra
+      </a>
+
+      <a
+      mat-button
+        [routerLink]="['/Orden-venta']"
+        routerLinkActive="active-link"
+        class="bton"
+      >
+      <i class="fas fa-luggage-cart"></i>&nbsp;&nbsp;Ordenes de venta
+      </a>
+
+      <a
+      mat-button
+        [routerLink]="['/ListadoSolicitudes']"
+        routerLinkActive="active-link"
+        class="bton"
+      >
+      <i class="far fa-list-alt"></i>&nbsp;&nbsp;Listado de solicitudes
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+ </section>
+
+
+  <hr style="background-color: white; height: 5px" />
+  <h2 style="color: white; ">Configuraciones</h2>
+
+
+
+  <mat-expansion-panel class="matPanel2" dense *ngIf="id == '1'">
+    <mat-expansion-panel-header >
+      <i class="fas fa-cogs"></i>&nbsp;&nbsp;Configuraciones
+    </mat-expansion-panel-header>
+    <mat-nav-list dense>
+
+      <a
+      class="bton"
+      mat-button
+        [routerLink]="['/data-configuracion/add-usuario']"
+        routerLinkActive="active-link"
+      >
+        <i class="fas fa-users-cog"></i>&nbsp;&nbsp;Agregar Usuario
+      </a>
+
+      <a
+      class="bton"
+      mat-button
+        [routerLink]="['/data-configuracion']"
+        routerLinkActive="active-link"
+      >
+        <i class="fas fa-users-cog"></i>&nbsp;&nbsp;Variables y Usuarios
+      </a>
+    </mat-nav-list>
+  </mat-expansion-panel>
+
+  <mat-divider></mat-divider>
+
+  
+</mat-nav-list>

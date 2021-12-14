@@ -1,0 +1,66 @@
+
+<app-card-template titleCard="Tareas">
+  <h3 headerCard>Listado de tareas</h3>
+  <div contentCard>
+    <a mat-raised-button color="primary" [routerLink]="['/add-tarea']"   routerLinkActive="active-link">Nueva Tarea</a>
+
+   <hr>
+    <div style="overflow-x: scroll">
+
+
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="row-border hover compact "
+      >
+        <thead>
+          <tr>
+
+
+            <th>Tarea</th>
+            <th>Fecha creada la tarea</th>
+            <th>Fecha de fecha recordatorio</th>
+
+            <th>Estado</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of list_tareas">
+
+            <td>{{ item.tarea }}</td>
+            <td>{{item.created_at | date:'MM/dd/yyyy - h:mma'}}</td>
+            <td>{{ item.fecha_recordatorio | date : format : timezone}}</td>
+            <td>
+              {{item.id_estado.nombre}}
+            </td>
+            <td>
+              <button
+                mat-mini-fab
+                matTooltip="Editar Tarea"
+                class="shadow"
+                color="primary"
+                [routerLink]="['/edit-tarea/', item.id]"
+              >
+                <i class="far fa-edit"></i>
+              </button>
+
+              <button
+                mat-mini-fab
+                matTooltip="Eliminar Tarea"
+                class="shadow"
+                color="accent"
+                (click)="deleteData(item.id)"
+              >
+                <i class="far fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</app-card-template>
+

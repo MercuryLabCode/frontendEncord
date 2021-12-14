@@ -1,0 +1,95 @@
+
+  <app-card-template titleCard="Proveedores">
+    <h3 headerCard>Editar proveedor:  <strong>{{proveedor.nombre}}</strong></h3>
+  
+    <div contentCard>
+      <form
+      action=""
+      method="post"
+      #registerForm="ngForm"
+      (ngSubmit)="onSubmit(registerForm)"
+    >
+    
+        <mat-form-field  style="width: 100%">
+          <mat-label>Nombre:</mat-label>
+          <input
+            name="nombre"
+            matInput
+            type="text"
+            #nombre="ngModel"
+            [(ngModel)]="proveedor.Proveedor_Name"
+            required
+          />
+        </mat-form-field>
+    
+      <!-- ___________________________________ -->
+      
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field  style="width: 100%">
+              <mat-label>Tipo de indentificación:</mat-label>
+              <mat-select name="tipo"  (valueChange)="tipoIdentificacion($event)" [(ngModel)]="proveedor.Tipo_Documento_Prov" required>
+                <mat-option *ngFor="let item of list_type" [value]="item.ID_Ident">
+                  {{ item.Nombre_Iden }} | {{ item.Descripcion_Iden }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field  style="width: 100%">
+              <mat-label>Número de identificación:</mat-label>
+              <input name="numero" matInput type="text"  #numero="ngModel"
+              [(ngModel)]="proveedor.No_Documento_Prov" required />
+            </mat-form-field>
+          </div>
+        </div>
+    
+      <!-- ___________________________________ -->
+      
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field  style="width: 100%">
+              <mat-label>Teléfono:</mat-label>
+              <input name="telefono" [mask]="maskCelular" matInput type="text"  #telefono="ngModel"
+              [(ngModel)]="proveedor.Telefono_Prov" required />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field  style="width: 100%">
+              <mat-label>Celular:</mat-label>
+              <input name="celular" [mask]="maskCelular" matInput type="text" #celular="ngModel"
+              [(ngModel)]="proveedor.Celular_Prov" required />
+            </mat-form-field>
+          </div>
+        </div>
+
+     
+      <!-- ____________________ -->
+  
+     
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field  style="width: 100%">
+              <mat-label>Correo electronico:</mat-label>
+              <input name="email" matInput type="email" #email="ngModel"
+              [(ngModel)]="proveedor.Email_Prov" required />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field  style="width: 100%">
+              <mat-label>Dirección:</mat-label>
+              <input name="direccion" matInput type="text"
+              #direccion="ngModel"
+              [(ngModel)]="proveedor.Direccion_Prov" required />
+            </mat-form-field>
+          </div>
+        </div>
+    
+      <!-- ___________________________________ -->
+  <hr>
+      <input class="button-primary" type="submit" value="Editar"  />
+    </form>
+    </div>
+  </app-card-template>
+  
+  

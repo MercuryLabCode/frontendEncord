@@ -1,0 +1,110 @@
+<h2 mat-dialog-title>Ordenes de compra</h2>
+<mat-dialog-content class="mat-typography">
+  <label><strong>Número de Orden: </strong>{{ objectData.No_Orden }}</label>
+  <form>
+    
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Nombre del material</mat-label>
+          <input
+            matInput
+            name="materialName"
+            materialName="ngModel"
+            disabled
+            [value]="objectData.Material_Name"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Marca</mat-label>
+          <input
+            matInput
+            name="materialName"
+            materialName="ngModel"
+            disabled
+            [value]="objectData.Marca"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Medida</mat-label>
+          <input
+            matInput
+            name="materialName"
+            materialName="ngModel"
+            disabled
+            [value]="objectData.Medida"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Cantidad de Material</mat-label>
+          <input
+            matInput
+            name="materialCantidad"
+            materialCantidad="ngModel"
+            (blur)="calcularPrecio($event)"
+            [value]="objectData.Cantidad_Material"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Precio Unitario</mat-label>
+          <input
+            matInput
+            name="materialPrecio"
+            materialPrecio="ngModel"
+            disabled
+            [value]="objectData.Precio_Unitario"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-sm">
+        <mat-form-field style="width: 100%">
+          <mat-label>Valor total</mat-label>
+          <input
+            matInput
+            name="materialValor"
+            materialValor="ngModel"
+            disabled
+            [value]="valorNuevo | currency"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close>Cerrar</button>
+
+  <ng-container *ngIf="tipo === 1; else elseTemplate">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="Editar()"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+    >
+      Guardar
+    </button>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="replicar()"
+      [mat-dialog-close]="true"
+      cdkFocusInitial
+    >
+      Guardar
+    </button>
+  </ng-template>
+</mat-dialog-actions>

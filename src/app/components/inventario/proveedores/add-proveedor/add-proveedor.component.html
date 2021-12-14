@@ -1,0 +1,179 @@
+
+
+
+<app-card-template titleCard="Proveedores">
+
+  <h3 headerCard>Formulario de Nuevo Proveedor</h3>
+  <div contentCard>
+
+    <form class="container" action="" [formGroup]="ProveedorFormGroup">
+   
+        <mat-form-field style="width: 100%">
+          <mat-label>Nombre:</mat-label>
+          <input
+            name="nombre"
+            matInput
+            type="text"
+            formControlName="Proveedor_Name"
+            required
+          />
+        </mat-form-field>
+    
+      <!-- ___________________________________ -->
+     
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Tipo de indentificación:</mat-label>
+              <mat-select
+                name="tipo"
+                formControlName="Tipo_Documento_Prov" 
+                autocomplete="off"
+                
+                required
+              >
+                <mat-option
+                  *ngFor="let item of list_type"
+                  [value]="item.ID_Ident"
+                >
+                  {{ item.Nombre_Iden }} - {{ item.Descripcion_Iden }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Número de identificación:</mat-label>
+              <input
+                name="numero"
+                matInput
+                type="text"
+                mask="separator.2"
+                thousandSeparator="."
+                formControlName="No_Documento_Prov" 
+                autocomplete="off"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      
+      <!-- Departamento -->
+      
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Departamento:</mat-label>
+              <mat-select
+                name="tipo"
+                (selectionChange)="DepartamentoSelect($event.value)"
+                required
+              >
+                <mat-option
+                  *ngFor="let Departamento of Departamentos"
+                  [value]="Departamento.Codigo_DANE_Departamento"
+                >
+                  {{ Departamento.Departamento }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Ciudad:</mat-label>
+              <mat-select name="tipo"  formControlName="Ciudad" 
+              autocomplete="off" required>
+                <mat-option
+                  *ngFor="let Ciudad of Ciudades"
+                  [value]="Ciudad.Municipio"
+                >
+                  {{ Ciudad.Municipio }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+     
+      <!-- ___________________________________ -->
+      
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Teléfono:</mat-label>
+              <input
+                name="telefono"
+                matInput
+                type="text"
+                
+                [mask]="maskCelular"
+                formControlName="Telefono_Prov" 
+                autocomplete="off"
+                
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Celular:</mat-label>
+              <input
+                name="celular"
+                matInput
+                type="text"
+                formControlName="Celular_Prov" 
+                autocomplete="off"
+                [mask]="maskCelular"
+                mask="[00]\[000]"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      
+      <!-- ____________________ -->
+
+      
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Correo electronico:</mat-label>
+              <input
+                name="email"
+                matInput
+                type="email"
+                formControlName="Email_Prov" 
+                autocomplete="off"  
+                email="true"
+                
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Dirección:</mat-label>
+              <input
+                name="direccion"
+                matInput
+                type="text"
+                formControlName="Direccion_Prov" 
+                autocomplete="off"  
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      
+      <!-- ___________________________________ -->
+      <hr />
+      <button
+      class="button-primary"
+        
+       
+        (click)="onSubmit()"
+      
+      >Registrar</button>
+    </form>
+
+  </div>
+
+</app-card-template>

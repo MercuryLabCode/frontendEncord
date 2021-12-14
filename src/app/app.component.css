@@ -1,0 +1,60 @@
+.sidenav-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+.sidenav_menu {
+  width: 240px;
+  height: 100%;
+  background: white;
+  color: #e7ebee;
+  z-index: 0;
+}
+
+.app-title {
+  background: #3e4551;
+  color: #f8f8f8;
+  font-size: 1.5em;
+
+}
+
+.toolbar {
+  background: transparent;
+}
+
+hr {
+  background: rgba(0,0,0,.52);
+  height: 2px;
+  border-radius: 15%;
+}
+
+#image {
+  /* the image you want to 'watermark' */
+  height: 100%; /* or whatever, equal to the image you want 'watermarked' */
+  width: 100%; /* as above */
+  background-image: url('../assets/encord2.png');
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  position: fixed;
+  margin-top: 11%;
+  margin-left: 17%;
+  z-index: -2;
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  filter: blur(2px);
+  }
+  
+  #image img {
+  /* the actual 'watermark' */
+  position: absolute;
+  top: 0; /* or whatever */
+  left: 50%; /* or whatever, position according to taste */
+  opacity: 0.9; /* Firefox, Chrome, Safari, Opera, IE >= 9 (preview) */
+  filter:alpha(opacity=70); /* for <= IE 8 */
+  }

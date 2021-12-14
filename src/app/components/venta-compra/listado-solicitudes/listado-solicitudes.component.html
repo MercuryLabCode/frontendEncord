@@ -1,0 +1,60 @@
+<app-card-template titleCard="Solicitudes de compra">
+  <h3 headerCard>Listado de la Solicitudes de ordenes de compra de materiales  </h3>
+  <div contentCard>
+    <mat-form-field
+                      style="width: 20%;"
+                      appearance="outline"
+                    >
+                      <mat-label
+                        ><i class="fas fa-search"></i>&nbsp;&nbsp;Buscar </mat-label
+                      >
+                      <input
+                        matInput
+                        type="text"
+                        name="search"
+                        [(ngModel)]="searchText"
+                        autocomplete="on"
+                        placeholder="Digité material o No. Orden"
+                      />
+
+                    </mat-form-field>
+        <table class="table ">
+          <thead>
+            <th>No. Orden</th>
+            <th>Material</th>
+            <th>Marca</th>
+            <th>Medida</th>
+            <th>Proveedor</th>
+            <th>Cantidad solicitada</th>
+            <th>Valor de la orden</th>
+          
+
+            <th></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let orden of listOrdenes | search: searchText">
+              <td>{{orden.No_Orden}}</td>
+              <td>{{orden.Material_Name}}</td>
+              <td>{{orden.Marca}}</td>
+              <td>{{orden.Medida}}</td>
+              <td>{{orden.Proveedor_Name}}</td>
+              <td>{{orden.Cantidad_Material | number}}</td>
+              <td>{{orden.Precio_Unitario | currency}}</td>
+            
+              <td><button mat-raised-button color="primary" (click)="openDialog(orden)">Aprobar o Rechazar</button></td>
+
+
+
+
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator
+        [length]="listOrdenes.length"
+        [pageSize]="page_size"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="handlePage($event)"
+        showFirstLastButtons
+      ></mat-paginator>
+  </div>
+</app-card-template>

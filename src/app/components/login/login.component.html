@@ -1,0 +1,77 @@
+
+<div class="fondo">
+
+  <div class="login-content">
+    <form
+    action="index.html"
+    #loginForm="ngForm"
+    (ngSubmit)="onSubmit(loginForm)"
+  >
+
+
+      <img src="../../../assets/avatar3.svg" />
+    <h2 class="title" style="color: rgb(56, 163, 165);" >Iniciar Sesión</h2>
+    <div class="input-div one">
+      <div class="i">
+        <i class="fas fa-user"></i>
+      </div>
+      <div class="div">
+        <label for="email"></label>
+        <input
+          name="email"
+          class="input"
+          type="email"
+          placeholder="Digité correo electrónico"
+          [(ngModel)]="user.User_Email"
+          #email="ngModel"
+          pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+          required
+        />
+        <br />
+        <small
+          *ngIf="!email.valid && email.touched"
+          class="invalid-feedback d-block"
+        >
+          Digite el campo correctamente
+        </small>
+      </div>
+    </div>
+    <div class="input-div pass">
+      <div class="i">
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="div">
+        <label for="contraseña"></label>
+        <input
+          name="contrasena"
+          type="password"
+          class="input"
+          placeholder="Digité Contraseña"
+          [(ngModel)]="user.User_Contrasena"
+          #contrasena="ngModel"
+          required
+        />
+        <br />
+        <small
+          *ngIf="!contrasena.valid && contrasena.touched"
+          class="invalid-feedback d-block"
+        >
+          Digite el campo correctamente
+        </small>
+      </div>
+    </div>
+    <a id="recu" href="#"><strong>recuperar contraseña?</strong></a>
+ 
+
+    <input
+      type="submit"
+      class="btn shadow"
+      value="Ingresar"
+      [disabled]="loginForm.invalid"
+    />
+
+
+  </form>
+   </div>
+</div>
+

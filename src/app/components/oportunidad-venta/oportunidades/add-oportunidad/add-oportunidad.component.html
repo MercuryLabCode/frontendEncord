@@ -1,0 +1,188 @@
+<app-card-template titleCard="Oportunidad de venta">
+  <h3 headerCard>Formulario Nueva Oportunidad</h3>
+  <div contentCard>
+    <!-- listado de clientes -->
+
+    <div>
+      <form [formGroup]="registerInformacion">
+
+        <mat-form-field  style="width: 100%;">
+          <mat-label>Cliente</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" >
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selectCliente($event)" >
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+              {{option.Client_Name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+
+        <br />
+
+        <div class="row">
+          <div class="col sm">
+            <mat-form-field class="example-full-width" style="width: 100%">
+              <mat-label>Fecha posible Compra</mat-label>
+              <input
+                matInput
+                [matDatepickerFilter]="myFilter"
+                [matDatepicker]="picker"
+                (dateInput)="addEvent('input', $event)"
+                formControlName="fecha"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Estado de la Oportunidad</mat-label>
+              <mat-select
+                name="estado"
+                formControlName="estado"
+                required
+              >
+                <mat-option
+                  *ngFor="let estado of listEstados"
+                  [value]="estado.name"
+                >
+                  {{ estado.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+        </div>
+        <mat-form-field style="width: 100%;">
+          <mat-label>Descripción</mat-label>
+          <textarea formControlName="descripcion" matInput></textarea>
+        </mat-form-field>
+      </form>
+      <hr />
+
+      <p class="lineal">Seleccione un proyecto</p>
+
+      <!-- Filtrado por proyecto -->
+
+
+
+      <mat-form-field style="width: 100%">
+        <mat-label>Seleccione un proyecto</mat-label>
+        <mat-select (selectionChange)="selectProyecto($event)">
+          <mat-option
+            *ngFor="let proyect of list_Proyecto"
+            [value]="proyect.Proyecto_ID "
+          >
+            {{ proyect.Proyecto_ID  }}-{{ proyect.Project_Name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-horizontal-stepper
+        labelPosition="bottom"
+        class="step"
+        #stepper
+        [linear]="isLinear"
+      >
+        <mat-step>
+          <form>
+            <ng-template matStepLabel>Listado de inmuebles</ng-template>
+            <p class="lineal">Listado de inmuebles disponibles</p>
+
+            <div style="overflow-x: scroll">
+              <table class="table table-bordered compact">
+                <thead>
+                  <th></th>
+                  <th>Código</th>
+                  <th>Unidad</th>
+                  <th>Nomenclatura</th>
+                  <th>Área Habitable</th>
+                  <th>Área Extension</th>
+                  <th>Área Total</th>
+                  <th>Tipo Extension</th>
+                  <th>Parqueadero</th>
+                  <th>Bodega</th>
+                  <th>Tipo inmueble</th>
+                  <th>Valor parqueadero</th>
+                  <th>Valor Bodega</th>
+                  <th>Valor total</th>
+                  <th>Descripción</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let inmu of list_inmuebles">
+                    <td>
+                      <mat-checkbox
+                        (change)="listadoseleccionados(inmu)"
+                      ></mat-checkbox>
+                    </td>
+                    <td>{{ inmu.id_unidad }}</td>
+                    <td>{{ inmu.Unidad }}</td>
+                    <td>{{ inmu.Nomenclatura_Unidad }}</td>
+                    <td>{{ inmu.Area_Habitable_M2 }}</td>
+                    <td>{{ inmu.Area_Extension_M2 }}</td>
+                    <td>{{ inmu.Area_Total_M2 }}</td>
+                    <td>{{ inmu.Tipo_Extension }}</td>
+                    <td>{{ inmu.No_Parqueaderos }}</td>
+                    <td>{{ inmu.Parque_Descr }}</td>
+                    <td>{{ inmu.Bodega_Deposito_M2 }}</td>
+                    <td>{{ inmu.Tipo_Inmueble }}</td>
+                    <td>{{ inmu.Valor_Parqueadero | currency }}</td>
+                    <td>{{ inmu.Valor_Deposito | currency }}</td>
+                    <td>{{ inmu.Valor_Total_Unidad | currency }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <hr />
+            <div class="text-center first">
+              <button
+                mat-button
+                matStepperNext
+                class="btn-next"
+                (click)="costoCompra()"
+                [disabled]="registerInformacion.invalid && list_select.length === 0"
+              >
+                Siguiente
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <form>
+            <ng-template matStepLabel>Inmuebles seleccionados</ng-template>
+            <p>Valor total de la compra: {{ total_oportunidad | currency }}</p>
+
+            <table class="table table-cell-inner">
+              <thead>
+                <th>Código</th>
+                <th>Unidad</th>
+                <th>Inmueble</th>
+                <th>Valor Total</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let select of list_select">
+                  <td>{{ select.id_unidad }}</td>
+                  <td>{{ select.Unidad }}</td>
+                  <td>{{ select.Tipo_Inmueble }}</td>
+                  <td>{{ select.Valor_Total_Unidad | currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-center first">
+              <button mat-button class="btn-atras" matStepperPrevious>
+                Regresar
+              </button>
+              <button mat-button class="btn-next"  (click)="onSubmit()">
+                Registrar
+              </button>
+            </div>
+          </form>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</app-card-template>

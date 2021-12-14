@@ -1,0 +1,70 @@
+<app-card-template titleCard="Proveedores">
+    <h3 headerCard>Listado de proveedores</h3>
+
+    <div contentCard>
+
+      <button class="cta" [routerLink]="['/adicionar_proveedor']"
+    routerLinkActive="active-link">
+      <span>Nuevo Proveedor</span>
+      <svg width="15px" height="10px" viewBox="0 0 13 10">
+        <path d="M1,5 L11,5"></path>
+        <polyline points="8 1 12 5 8 9"></polyline>
+      </svg>
+    </button>
+    <hr>
+    <table
+    datatable
+    [dtOptions]="dtOptions"
+    [dtTrigger]="dtTrigger"
+    class="row-border hover compact"
+
+    >
+    <thead>
+      <tr >
+        <th>Proveedor</th>
+        <th>Identificación</th>
+        <th>Número de identificación</th>
+        <th>Teléfono</th>
+        <th>Celular</th>
+        <th>Email</th>
+        <th>Ciudad</th>
+        <th>dirección</th>
+        <th>opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of list_proveedores">
+        <td >{{ item.Proveedor_Name }}</td>
+
+        <td>
+         {{item.tipo__documento__prov.Nombre_Iden}} - {{item.tipo__documento__prov.Descripcion_Iden}} 
+        </td>
+
+        <td>{{ item.No_Documento_Prov }}</td>
+        <td>{{ item.Telefono_Prov }}</td>
+        <td>{{ item.Celular_Prov }}</td>
+        <td>{{ item.Email_Prov }}</td>
+        <td>{{ item.Ciudad }}</td>
+        <td>{{ item.Direccion_Prov }}</td>
+        <td>
+
+       
+            <button     class="button-primary"
+            matTooltip="Editar"  
+             [routerLink]="['/editar_proveedor/',item.No_Documento_Prov]" matTooltip="Editar" >
+              <i class="fas fa-edit"></i>
+            </button>&nbsp;
+         
+            <button  class="button-accent"
+            matTooltip="Eliminar" (click)="deleteProveedor(item.No_Documento_Prov)" matTooltip="Eliminar"  >
+              <i class="far fa-trash-alt"></i>
+
+            </button>
+         
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    </div>
+  </app-card-template>

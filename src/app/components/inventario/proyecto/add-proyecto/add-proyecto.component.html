@@ -1,0 +1,530 @@
+<app-card-template titleCard="Proyecto">
+  <h3 headerCard>Formulario para un nuevo proyecto</h3>
+  <div contentCard>
+    <div class="content-form col-md-10 offset-md-1">
+      <mat-horizontal-stepper
+        labelPosition="bottom"
+        class="step"
+        #stepper
+        [linear]="isLinear"
+      >
+        <!-- Datos iniciales del proyecto -->
+        <mat-step [stepControl]="ProyectoGroup">
+          <form [formGroup]="ProyectoGroup">
+            <ng-template matStepLabel>Información Proyecto</ng-template>
+            <br />
+            <!-- Nombre del proyecto -->
+            <p class="lineal">Ingrese los datos básicos del proyecto</p>
+            <mat-form-field class="example-full-width" style="width: 100%">
+              <mat-label>Nombre del proyecto</mat-label>
+              <input
+                matInput
+                placeholder="Ingrese el nombre del Proyecto"
+                formControlName="pNombre"
+                (blur)="ValidarProyecto($event)"
+                required
+              />
+            </mat-form-field>
+
+            <div class="row">
+              <!-- estado del proyecto -->
+              <div class="col-sm">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Estado del proyecto</mat-label>
+                  <mat-select formControlName="pEstado" required>
+                    <mat-option disabled>Seleccione</mat-option>
+                    <mat-option
+                      *ngFor="let estado of estados"
+                      [value]="estado.Catalogo_Estado_Proy"
+                    >
+                      {{ estado.Catalogo_Estado_Proy }} - {{ estado.Estado_Descripcion_Proy }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!-- tipo proyecto -->
+              <div class="col-sm">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Tipo de proyecto</mat-label>
+                  <mat-select formControlName="pTipo" required>
+                    <mat-option
+                      *ngFor="let tProyecto of Tipo_Proyecto"
+                      [value]="tProyecto.name"
+                    >
+                      {{ tProyecto.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- tipo rango inicio y fin de proyecto -->
+              <!-- [min]="minDate" -->
+              <div class="col-sm">
+                <mat-form-field style="width: 100%" color="accent">
+                  <mat-label>Inicio y finalización del proyecto</mat-label>
+                  <mat-date-range-input
+                    [rangePicker]="picker"
+                    required
+                  >
+                    <input
+                      matStartDate
+                      placeholder="Inicio"
+                      formControlName="pFechaInicio"
+                    />
+                    <input
+                      matEndDate
+                      placeholder="Fin"
+                      formControlName="pFechaFinal"
+                    />
+                  </mat-date-range-input>
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+              </div>
+              <!-- Departamento -->
+
+              <div class="col-sm">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Departamento</mat-label>
+                  <mat-select
+                    (selectionChange)="filtroCiudades($event)"
+                    formControlName="pDepartamento"
+                    required
+                  >
+                    <mat-option
+                      *ngFor="let depar of lst_ciudades"
+                      [value]="depar.Codigo_DANE_Departamento"
+                    >
+                      {{ depar.Departamento }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- ciudades -->
+              <div class="col-sm">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Ciudades</mat-label>
+                  <mat-select formControlName="pCiudad" required>
+                    <mat-option
+                      *ngFor="let ciudad of lst_filtroCiudades"
+                      [value]="ciudad.Municipio"
+                    >
+                      {{ ciudad.Municipio }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <!-- Direccion -->
+              <div class="col-sm">
+                <mat-form-field class="example-full-width" style="width: 100%">
+                  <mat-label>Dirección</mat-label>
+                  <input
+                    matInput
+                    placeholder="Ej: Carrera 1 # 2-3"
+                    formControlName="pDireccion"
+                    required
+                  />
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-form-field class="example-full-width" style="width: 100%">
+              <mat-label>Descripción del proyecto</mat-label>
+              <textarea
+                matInput
+                formControlName="pDescripcion"
+                placeholder="Cuenta con Piscina, etc...."
+              ></textarea>
+            </mat-form-field>
+
+            <hr />
+            <div class="text-center first">
+              <button
+              class="button-primary"
+              matTooltip="Siguiente"
+                (click)="submit(1)"
+                [disabled]="ProyectoGroup.invalid"
+                matStepperNext
+              >
+                Siguiente
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <!-- Datos de las torres del proyecto -->
+        <mat-step [stepControl]="formularioTorre">
+          <ng-template matStepLabel>Información Torres</ng-template>
+          <p class="lineal">
+            Ingrese la Información de la torres que van a contener los proyectos
+          </p>
+          <div class="add-lessons-form" [formGroup]="form">
+            <ng-container formArrayName="lessons">
+              <ng-container
+                *ngFor="let lessonForm of lessons.controls; let i = index"
+              >
+                <div class="lesson-form-row" [formGroup]="lessonForm">
+                  <div class="row">
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Nombre de la Torre</mat-label>
+                        <input
+                          matInput
+                          autocomplete="off"
+                          placeholder="Digite el nombre de la torre"
+                          formControlName="tNombre"
+                          (blur)="actualizarNombre($event,i)"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Cantidad de pisos</mat-label>
+                        <input
+                          matInput
+                          type="number"
+                          placeholder="Ej: 0"
+                          min="0"
+                          pattern="[0-9]+"
+                          formControlName="tPisos"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <button
+                    class="button-accent"
+                    matTooltip="Eliminar"
+                    (click)="deleteLesson(i)"
+                    
+                  >
+                    Borrar
+                  </button>
+                </div>
+              </ng-container>
+            </ng-container>
+            <br />
+            <button matTooltip="nueva Torre" (click)="addLesson()" class="button-warn">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <hr />
+          <div class="text-center first">
+            <button  matTooltip="Regresar" class="button-accent" matStepperPrevious>
+              Regresar
+            </button>
+            <button
+            class="button-primary"
+            matTooltip="Siguiente"
+              [disabled]="lessons.invalid"
+              (click)="submit(2)"
+              matStepperNext
+            >
+              Siguiente
+            </button>
+          </div>
+        </mat-step>
+        <!-- Datos de los Inmuebles -->
+        <mat-step [stepControl]="unidadesFormGroup">
+          <ng-template matStepLabel>Información inmuebles</ng-template>
+          <p class="lineal">Ingrese la Información de los inmuebles</p>
+          <div class="add-lessons-form" [formGroup]="unidad">
+            <ng-container formArrayName="unidades">
+              <ng-container
+                *ngFor="let unidadesFrom of unidades.controls; let i = index"
+              >
+                <div class="lesson-form-row" [formGroup]="unidadesFrom">
+                  
+                  <p class="lineal">Inmueble No.{{ i + 1 }}</p>
+                  <div class="row">
+
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Ubicación torre</mat-label>
+                        <mat-select formControlName="torre_ID" required>
+                          <mat-option value="value" disabled
+                            >Seleccione</mat-option
+                          >
+                          <mat-option
+                            *ngFor="let tor of lst_filter_torre"
+                            [value]="tor.nombre"
+                          >
+                            {{ tor.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Tipo de Inmueble</mat-label>
+                        <mat-select formControlName="Tipo_Inmueble" required>
+                          <mat-option value="value" disabled
+                            >Seleccione</mat-option
+                          >
+                          <mat-option
+                            *ngFor="let tInmueble of lst_tipoInmueble"
+                            [value]="tInmueble.id"
+                          >
+                            {{ tInmueble.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Unidad</mat-label>
+                        <input
+                          matInput
+                          placeholder="Digite el nombre de la torre"
+                          formControlName="Unidad"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Nomenclatura</mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese la nomenclatura de la unidad"
+                          formControlName="Nomenclatura_Unidad"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Area habitable</mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese area habitable"
+                          matTooltip="separe con punto"
+                          formControlName="Area_Habitable_M2"
+                          (blur)="sumatoria(i)"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Area Extension</mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese area extension"
+                          matTooltip="separe con punto"
+
+                          formControlName="Area_Extension_M2"
+                          (blur)="sumatoria(i)"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Tipo extension</mat-label>
+                        <mat-select formControlName="Tipo_Extension" required>
+                          <mat-option value="value" disabled
+                            >Seleccione</mat-option
+                          >
+                          <mat-option
+                            *ngFor="let ext of Extension"
+                            [value]="ext.name"
+                          >
+                            {{ ext.name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                     
+                        <mat-label>Area total</mat-label>
+
+                        <p>{{sumatoriaResults[i]}}</p>
+                       
+                     
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Parqueaderos</mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese Cantidad de parqueaderos"
+                          formControlName="No_Parqueaderos"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Descripción parqueadero </mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese la descripción del parqueadero"
+                          formControlName="Parque_Descr"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Bodega o deposito</mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese cantidad de deposito"
+                          formControlName="Bodega_Deposito_M2"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Estado de la unidad</mat-label>
+                        <input
+                          matInput
+                          placeholder="Ingrese area habitable"
+                          formControlName="Estado_Unidad"
+                          disabled
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <p class="lineal">Costos de la unidad</p>
+                  <div class="row">
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Valor del parqueadero</mat-label>
+                        <input
+                          matInput
+                          autocomplete="off"
+                          prefix="$  "
+                          mask="separator.2"
+                          thousandSeparator=","
+                          placeholder="Ingrese Valor del parqueadero"
+                          formControlName="Valor_Parqueadero"
+                          
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                      <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Valor de la Bodega</mat-label>
+                        <input
+                          matInput
+                          autocomplete="off"
+                          prefix="$  "
+                          mask="separator.2"
+                          thousandSeparator=","
+                          placeholder="Ingrese Bodega"
+                          formControlName="Valor_Deposito"
+                          required
+                        />
+                      </mat-form-field>
+                    </div>
+                    <div class="col-sm">
+                     
+                      <mat-form-field
+                      class="example-full-width"
+                      style="width: 100%"
+                    >
+                      <mat-label>Valor Total de la Unidad</mat-label>
+                      <input
+                        matInput
+                        autocomplete="off"
+                        prefix="$  "
+                        mask="separator.2"
+                        thousandSeparator=","
+                        placeholder="Ingrese Valor"
+                        
+                        formControlName="Valor_Total_Unidad"
+                        required
+                      />
+                    </mat-form-field>
+                    </div>
+                  </div>
+                  <button
+                  matTooltip="borrar"
+                    (click)="deleteInmueble(i)"
+                    class="button-basic"
+                  >
+                    Borrar
+                  </button>
+                </div>
+              </ng-container>
+            </ng-container>
+            <br />
+            <button (click)="addInmueble() " class="button-warn" matTooltip="Nuevo inmueble" >
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <hr />
+          <div class="text-center first">
+            <button class="button-basic" matTooltip="Regresar"  matStepperPrevious>
+              Regresar
+            </button>
+            <button
+            class="button-primary" matTooltip="Guardar data" 
+              [disabled]="lessons.invalid"
+              (click)="submit(3)"
+            >
+              Guardar Datos
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</app-card-template>

@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Ordenes de compra</h2>
+<mat-dialog-content class="mat-typography">
+<form  class="example-form" action="">
+        <label><strong>Número de Orden: </strong>{{objectData.No_Orden}}</label>
+        <section>
+          <mat-form-field appearance="fill">
+            <mat-label>Estado de la Oportunidad</mat-label>
+            <mat-select [(ngModel)]="estado" name="estado">
+              <mat-option *ngFor="let estado of listEstado" [value]="estado.nombre">
+                {{estado.nombre}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+  
+        <section>
+          <mat-form-field appearance="fill">
+            <mat-label >Comentario</mat-label>
+            <textarea [(ngModel)]="descripcion" name="descripcion" matInput></textarea>
+          </mat-form-field>
+        </section>
+     
+
+</form>
+
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="warn" mat-dialog-close>Cerrar</button>
+  <button mat-raised-button color="primary" (click)="actualizar()" [mat-dialog-close]="true" cdkFocusInitial>Guardar</button>
+</mat-dialog-actions>

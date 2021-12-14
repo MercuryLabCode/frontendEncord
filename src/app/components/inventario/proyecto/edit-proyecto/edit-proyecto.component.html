@@ -1,0 +1,431 @@
+<app-card-template titleCard="Proyectos">
+  <h3 headerCard> </h3>
+  <div contentCard>
+    <div class="container-fluid">
+      <p class="lineal">Ingrese los datos básicos del proyecto</p>
+      <mat-form-field class="example-full-width" style="width: 100%">
+        <mat-label>Nombre del proyecto</mat-label>
+        <input
+          matInput
+          placeholder="Ingrese el nombre del Proyecto"
+          (blur)="ValidarProyecto($event)"
+          name="nombre"
+          #ProyectoNombre="ngModel"
+          [(ngModel)]="proyectoUpdate.Project_Name"
+          required
+        />
+      </mat-form-field>
+
+      <div class="row">
+        <!-- estado del proyecto -->
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Estado del proyecto</mat-label>
+            <mat-select
+              name="estado"
+              #estado="ngModel"
+              [(ngModel)]="proyectoUpdate.Estado_Proyecto"
+              required
+            >
+              <mat-option disabled>Seleccione</mat-option>
+              <mat-option
+                *ngFor="let estado of estados"
+                [value]="estado.Catalogo_Estado_Proy"
+              >
+                {{ estado.Catalogo_Estado_Proy }} -
+                {{ estado.Estado_Descripcion_Proy }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- tipo proyecto -->
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Tipo de proyecto</mat-label>
+            <mat-select
+              name="tipoProyecto"
+              #tipoProyecto="ngModel"
+              [(ngModel)]="proyectoUpdate.Tipo_Proyecto"
+            >
+              <mat-option disabled>Seleccione</mat-option>
+              <mat-option
+                *ngFor="let tProyecto of Tipo_Proyecto"
+                [value]="tProyecto.name"
+              >
+                {{ tProyecto.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- tipo rango inicio y fin de proyecto -->
+        <!-- [min]="minDate" -->
+        <div class="col-sm">
+          <mat-form-field style="width: 100%" color="accent">
+            <mat-label>Inicio y finalización del proyecto</mat-label>
+            <mat-date-range-input [rangePicker]="picker" required>
+              <input
+                matStartDate
+                name="fInicio"
+                #fInicio="ngModel"
+                [(ngModel)]="proyectoUpdate.Fecha_Inicio_Projecto"
+                placeholder="Inicio"
+              />
+              <input
+                matEndDate
+                name="fFinal"
+                #fFinal="ngModel"
+                [(ngModel)]="proyectoUpdate.Fecha_Fin_Projecto"
+                placeholder="Fin"
+              />
+            </mat-date-range-input>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+        <!-- Departamento -->
+
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Departamento</mat-label>
+            <mat-select
+              (selectionChange)="filtroCiudades($event)"
+              name="Departamento"
+              #Departamento="ngModel"
+              [(ngModel)]="proyectoUpdate.Departamento"
+              required
+            >
+              <mat-option
+                *ngFor="let depar of lst_ciudades"
+                [value]="depar.Codigo_DANE_Departamento"
+              >
+                {{ depar.Departamento }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- ciudades -->
+        <div class="col-sm">
+          <mat-form-field style="width: 100%">
+            <mat-label>Ciudades</mat-label>
+            <mat-select
+              name="ciudad"
+              #ciudad="ngModel"
+              [(ngModel)]="proyectoUpdate.Ciudad"
+              required
+            >
+              <mat-option
+                *ngFor="let ciudad of lst_filtroCiudades"
+                [value]="ciudad.Municipio"
+              >
+                {{ ciudad.Municipio }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Direccion -->
+        <div class="col-sm">
+          <mat-form-field class="example-full-width" style="width: 100%">
+            <mat-label>Dirección</mat-label>
+            <input
+              matInput
+              placeholder="Ej: Carrera 1 # 2-3"
+              name="Direccion"
+              #Direccion="ngModel"
+              [(ngModel)]="proyectoUpdate.Direccion"
+              required
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field class="example-full-width" style="width: 100%">
+        <mat-label>Descripción del proyecto</mat-label>
+        <textarea
+          matInput
+          name="Descr_Proyecto"
+          #Descr_Proyecto="ngModel"
+          [(ngModel)]="proyectoUpdate.Descr_Proyecto"
+          placeholder="Cuenta con Piscina, etc...."
+        ></textarea>
+      </mat-form-field>
+
+      <!-- torres Con inmuebles -->
+
+      <h2>Listado de Torres - Inmuebles</h2>
+    
+
+      <button class="button-warn" (click)="openDialog()" >Agregar  Inmueble</button>
+      
+      <button class="button-warn" (click)="openDialog()" >Editar Torre</button>
+
+      <mat-accordion >
+        <hr />
+        <span
+          *ngFor="let torre of ListTorres | paginate: page_size:page_number" 
+        >
+          <mat-expansion-panel 
+          style="border-style: solid;border-width: 1px;border-color: rgb(56, 163, 165);"
+            (opened)="panelOpenState = true && filtrarInmuebleTorre(torre)"
+            (closed)="panelOpenState = false"
+          >
+            <mat-expansion-panel-header >
+              <mat-panel-title> Nombre de la Torre: </mat-panel-title>
+              <mat-panel-description>
+                <strong>{{ torre.nombre }}</strong>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <span *ngFor="let item of listInmueble; let i =index"  >
+
+      <p class="lineal"> # {{i+1}} Inmueble</p>
+
+
+            <div class="container">
+
+              <!-- datos Iniciales -->
+              <div class="row">
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Nombre de la torre</mat-label>
+                    <input
+                      matInput
+                     name="Torre_Name"
+                      #Torre_Name="ngModel"
+                      [(ngModel)]="item.Torre_Name"
+                      disabled
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+
+                  <mat-form-field
+                        class="example-full-width"
+                        style="width: 100%"
+                      >
+                        <mat-label>Tipo de Inmueble</mat-label>
+                        <mat-select  name="Tipo_Inmueble"
+                        #Tipo_Inmueble="ngModel"
+                        [(ngModel)]="item.Tipo_Inmueble" required>
+                          <mat-option value="value" disabled
+                            >Seleccione</mat-option
+                          >
+                          <mat-option
+                            *ngFor="let tInmueble of lst_tipoInmueble"
+                            [value]="tInmueble.id"
+                          >
+                            {{ tInmueble.nombre }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                </div>
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Estado Unidad</mat-label>
+                    <input
+                      matInput
+                      name="Estado_Unidad"
+                      #Estado_Unidad="ngModel"
+                      [(ngModel)]="item.Estado_Unidad"
+                      disabled
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Nomenclatura</mat-label>
+                    <input
+                      matInput
+                     name="Nomenclatura_Unidad"
+                      #Nomenclatura_Unidad="ngModel"
+                      [(ngModel)]="item.Nomenclatura_Unidad"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Área Extension M2</mat-label>
+                    <input
+                      matInput
+                      name="Area_Extension_M2"
+                      #Area_Extension_M2="ngModel"
+                      [(ngModel)]="item.Area_Extension_M2"
+                      (blur)="sumatoria(i)"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Área Habitable M2</mat-label>
+                    <input
+                      matInput
+                      name="Area_Habitable_M2"
+                      #Area_Habitable_M2="ngModel"
+                      [(ngModel)]="item.Area_Habitable_M2"
+                      (blur)="sumatoria(i)"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Área Total M2</mat-label>
+                    <input
+                      matInput
+                      name="Area_Total_M2"
+                      #Area_Total_M2="ngModel"
+                      [(ngModel)]="item.Area_Total_M2"
+                      disabled
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+
+                  <mat-form-field
+                  class="example-full-width"
+                  style="width: 100%"
+                >
+                  <mat-label>Tipo extensión</mat-label>
+                  <mat-select name="Tipo_Extension"
+                  #Tipo_Extension="ngModel"
+                  [(ngModel)]="item.Tipo_Extension" required>
+                    <mat-option value="value" disabled
+                      >Seleccione</mat-option
+                    >
+                    <mat-option
+                      *ngFor="let ext of Extension"
+                      [value]="ext.name"
+                    >
+                      {{ ext.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                </div>
+              </div>
+              <!-- segunda  -->
+              <div class="row">
+                
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Cantidad de parqueaderos</mat-label>
+                    <input
+                      matInput
+                      name="No_Parqueaderos"
+                      #No_Parqueaderos="ngModel"
+                      [(ngModel)]="item.No_Parqueaderos"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Parqueadero Descripción</mat-label>
+                    <input
+                      matInput
+                      name="Parque_Descr"
+                      #Parque_Descr="ngModel"
+                      [(ngModel)]="item.Parque_Descr"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Bodega Deposito M2</mat-label>
+                    <input
+                      matInput
+                      name="Bodega_Deposito_M2"
+                      #Bodega_Deposito_M2="ngModel"
+                      [(ngModel)]="item.Bodega_Deposito_M2"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+              
+              </div>
+
+              <!-- Precios -->
+
+              <div class="row">
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Valor Parqueadero</mat-label>
+                    <input
+                      matInput
+                      name="Valor_Parqueadero"
+                      #Valor_Parqueadero="ngModel"
+                      prefix="$  "
+                        mask="separator.2"
+                        thousandSeparator=","
+                      [(ngModel)]="item.Valor_Parqueadero"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Valor Deposito</mat-label>
+                    <input
+                      matInput
+                      name="Valor_Deposito"
+                      prefix="$  "
+                        mask="separator.2"
+                        thousandSeparator=","
+                      #Valor_Deposito="ngModel"
+                      [(ngModel)]="item.Valor_Deposito"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+
+
+                <div class="col-sm">
+                  <mat-form-field class="example-full-width" style="width: 100%">
+                    <mat-label>Valor Total Unidad</mat-label>
+                    <input
+                      matInput
+                      name="Valor_Total_Unidad"
+                      prefix="$  "
+                        mask="separator.2"
+                        thousandSeparator=","
+                      #Valor_Total_Unidad="ngModel"
+                      [(ngModel)]="item.Valor_Total_Unidad"
+                      required
+                    />
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </div>
+            </span>
+          </mat-expansion-panel>
+        </span>
+      </mat-accordion>
+
+      <hr>
+    
+        <button  class="button-primary " (click)="Editar()">Editar</button>&nbsp;
+     
+        <button  class="button-accent" [routerLink]="['/list-proyecto']"
+      routerLinkActive="active-link">Regresar</button>
+   
+     
+      <mat-paginator
+        [length]="ListTorres.length"
+        [pageSize]="page_size"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="handlePage($event)"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</app-card-template>

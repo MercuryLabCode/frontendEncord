@@ -1,0 +1,11 @@
+.list{
+  background-color: #fafafa;
+  margin: 1rem;
+  padding: 1rem;
+  border: 2px solid #ccc;
+  /* IMPORTANTE */
+  text-align: center;
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

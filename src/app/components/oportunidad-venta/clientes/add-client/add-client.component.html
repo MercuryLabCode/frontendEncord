@@ -1,0 +1,232 @@
+<app-card-template titleCard="Clientes">
+  <h3 headerCard>{{title_modulo}}</h3>
+  <div contentCard>
+    <hr>
+    <form
+      action=""
+      method="post"
+      
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Nombre Completo</mat-label>
+              <input
+                matInput
+                type="text"
+                name="Client_Name"
+                Client_Name="ngModel"
+                [(ngModel)]="cliente.Client_Name"
+                autocomplete="off"
+                placeholder="Registre Nombre del cliente"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Tipo de Identificación</mat-label>
+              <mat-select
+                name="type_iden"
+
+                name="tipo_documento_cli"
+                (valueChange)="CategoriaSeleccionado($event)"
+                [value]="Selectidentificacion"
+                autocomplete="off"
+                
+                required
+              >
+                <mat-option
+                  *ngFor="let type of tipo_identificacion"
+                  [value]="type.ID_Ident"
+                >
+                  {{ type.Nombre_Iden }} -   {{ type.	Descripcion_Iden }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Número de Identificación</mat-label>
+              <input
+                name="num_id"
+
+                name="No_Documento_Cli"
+                No_Documento_Cli="ngModel"
+                [(ngModel)]="cliente.No_Documento_Cli"
+               
+                autocomplete="off"
+                mask="separator.2"
+                thousandSeparator=","
+                matInput
+               
+                placeholder="Registre Número del cliente"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="picker"                
+              name="Fecha_Nacimiento_Cli"
+              
+               [value]="cliente.Fecha_Nacimiento_Cli"
+               autocomplete="off"
+              (dateInput)="addEvent($event)"/>
+              <mat-datepicker-toggle
+                matSuffix
+
+                [for]="picker"
+
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Nivel de estudio</mat-label>
+              <mat-select
+                name="estudio"
+
+                name="Nivel_Estudios"
+                Nivel_Estudios="ngModel"
+              [(ngModel)]="cliente.Nivel_Estudios"
+               autocomplete="off"
+                required
+              >
+                <mat-option
+                  *ngFor="let estudio of nivel_estudio"
+                  [value]="estudio.nivel"
+                >
+                  {{ estudio.nivel }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Profesión</mat-label>
+              <input
+                matInput
+               
+                placeholder="Profesión del cliente"
+                name="Profesion_Cli"
+                Profesion_Cli="ngModel"
+                [(ngModel)]="cliente.Profesion_Cli"
+                autocomplete="off"
+                type="text"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Teléfono</mat-label>
+              <input
+                matInput
+                placeholder="Número de contacto del cliente"
+                name="tel"
+                name="Telefono_Cli"
+                Telefono_Cli="ngModel"
+                [(ngModel)]="cliente.Telefono_Cli"
+                autocomplete="off"
+                type="text"
+                [mask]="maskCelular"
+                
+                min="0"
+                pattern="[0-9]+"
+                max="10"
+                required
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Celular</mat-label>
+              <input
+                matInput
+                name="Celular_Cli"
+                Celular_Cli="ngModel"
+                [(ngModel)]="cliente.Celular_Cli"
+                placeholder="Número de Celular"
+                name="cel"
+               
+                autocomplete="off"
+                type="text"
+                [mask]="maskCelular"
+                min="0"
+                pattern="[0-9]+"
+                max="10"
+                required
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="col-sm">
+            <mat-form-field style="width: 100%">
+              <mat-label>Correo Electrónico</mat-label>
+              <input
+                matInput
+                
+               
+                name="Email_Cli"
+                Email_Cli="ngModel"
+                [(ngModel)]="cliente.Email_Cli"
+                autocomplete="off"
+                type="text"
+                placeholder="prueba@gmail.com"
+                required
+              />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <mat-form-field style="width: 100%">
+          <mat-label>Descripción:</mat-label>
+          <textarea
+          
+            name="descripcion"
+           
+            autocomplete="off"
+            type="text"
+            matInput
+          ></textarea>
+        </mat-form-field>
+      </div>
+<hr>
+<button class="btn shadow-lg" (click)="eventRegresar()">
+  <svg
+    height="16"
+    width="16"
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+    viewBox="0 0 1024 1024"
+  >
+    <path
+      d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"
+    ></path>
+  </svg>
+  <span>Regresar</span>
+</button>&nbsp;
+<button
+class="btn shadow-lg"
+
+
+(click)="onSubmit()"
+style="background-color: #3f51b5; color: white"
+>Registrar</button>
+      
+    </form>
+  </div>
+</app-card-template>
